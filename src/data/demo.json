@@ -5,12 +5,30 @@
     "id": "(root)",
     "label": "root files",
     "path": "",
-    "fileCount": 8,
+    "fileCount": 15,
     "languages": [
      "TypeScript",
      "JavaScript"
     ],
     "role": "Top-level files",
+    "isEntry": false
+   },
+   {
+    "id": ".github",
+    "label": ".github",
+    "path": ".github",
+    "fileCount": 6,
+    "languages": [],
+    "role": "GitHub config & CI",
+    "isEntry": false
+   },
+   {
+    "id": "docs",
+    "label": "docs",
+    "path": "docs",
+    "fileCount": 1,
+    "languages": [],
+    "role": "Documentation",
     "isEntry": false
    },
    {
@@ -39,7 +57,7 @@
     "id": "src/app",
     "label": "src/app",
     "path": "src/app",
-    "fileCount": 5,
+    "fileCount": 8,
     "languages": [
      "TypeScript",
      "CSS"
@@ -62,7 +80,7 @@
     "id": "src/app/r",
     "label": "src/app/r",
     "path": "src/app/r",
-    "fileCount": 3,
+    "fileCount": 5,
     "languages": [
      "TypeScript"
     ],
@@ -73,7 +91,7 @@
     "id": "src/components",
     "label": "src/components",
     "path": "src/components",
-    "fileCount": 5,
+    "fileCount": 7,
     "languages": [
      "TypeScript"
     ],
@@ -153,9 +171,26 @@
     "source": "src/app",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 1,
+    "weight": 4,
     "evidence": [
-     "src/app/layout.tsx imports src/lib/site.ts"
+     "src/app/layout.tsx imports src/lib/site.ts",
+     "src/app/page.tsx imports src/lib/site.ts",
+     "src/app/robots.ts imports src/lib/site.ts",
+     "src/app/sitemap.ts imports src/lib/site.ts"
+    ]
+   },
+   {
+    "id": "src/app→src/components",
+    "source": "src/app",
+    "target": "src/components",
+    "kind": "confirmed",
+    "weight": 6,
+    "evidence": [
+     "src/app/page.tsx imports src/components/LandingDemo.tsx",
+     "src/app/page.tsx imports src/components/RepoSearch.tsx",
+     "src/app/page.tsx imports src/components/SiteHeader.tsx",
+     "src/app/page.tsx imports src/components/icons.tsx",
+     "src/app/not-found.tsx imports src/components/RepoSearch.tsx"
     ]
    },
    {
@@ -227,6 +262,29 @@
     ]
    },
    {
+    "id": "src/components→src/lib",
+    "source": "src/components",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/components/GuideMap.tsx imports src/lib/types.ts",
+     "src/components/LandingDemo.tsx imports src/lib/types.ts",
+     "src/components/SiteHeader.tsx imports src/lib/site.ts"
+    ]
+   },
+   {
+    "id": "src/components→src/components/explorer",
+    "source": "src/components",
+    "target": "src/components/explorer",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "src/components/GuideMap.tsx imports src/components/explorer/ArchitectureCanvas.tsx",
+     "src/components/LandingDemo.tsx imports src/components/explorer/ArchitectureCanvas.tsx"
+    ]
+   },
+   {
     "id": "src/components/explorer→src/components",
     "source": "src/components/explorer",
     "target": "src/components",
@@ -288,27 +346,17 @@
     ]
    },
    {
-    "id": "src/app→src/components",
-    "source": "src/app",
-    "target": "src/components",
-    "kind": "confirmed",
-    "weight": 2,
-    "evidence": [
-     "src/app/not-found.tsx imports src/components/RepoSearch.tsx",
-     "src/app/not-found.tsx imports src/components/SiteHeader.tsx"
-    ]
-   },
-   {
     "id": "src/app/r→src/components",
     "source": "src/app/r",
     "target": "src/components",
     "kind": "confirmed",
-    "weight": 4,
+    "weight": 7,
     "evidence": [
      "src/app/r/[owner]/[repo]/loading.tsx imports src/components/SiteHeader.tsx",
      "src/app/r/[owner]/[repo]/page.tsx imports src/components/RepoError.tsx",
      "src/app/r/[owner]/[repo]/page.tsx imports src/components/RepoSearch.tsx",
-     "src/app/r/[owner]/[repo]/page.tsx imports src/components/SiteHeader.tsx"
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/SiteHeader.tsx",
+     "src/app/r/[owner]/[repo]/guide/page.tsx imports src/components/GuideMap.tsx"
     ]
    },
    {
@@ -361,56 +409,17 @@
     ]
    },
    {
-    "id": "src/app/r→src/components/explorer",
-    "source": "src/app/r",
-    "target": "src/components/explorer",
-    "kind": "confirmed",
-    "weight": 2,
-    "evidence": [
-     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/Explorer.tsx",
-     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/RepoHeader.tsx"
-    ]
-   },
-   {
-    "id": "src/app/r→src/lib/ai",
-    "source": "src/app/r",
-    "target": "src/lib/ai",
-    "kind": "confirmed",
-    "weight": 1,
-    "evidence": [
-     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/ai/provider.ts"
-    ]
-   },
-   {
     "id": "src/app/r→src/lib/github",
     "source": "src/app/r",
     "target": "src/lib/github",
     "kind": "confirmed",
-    "weight": 3,
+    "weight": 8,
     "evidence": [
+     "src/app/r/[owner]/[repo]/opengraph-image.tsx imports src/lib/github/repo.ts",
+     "src/app/r/[owner]/[repo]/opengraph-image.tsx imports src/lib/github/url.ts",
      "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/client.ts",
      "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/repo.ts",
      "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/url.ts"
-    ]
-   },
-   {
-    "id": "src/app/r→src/lib",
-    "source": "src/app/r",
-    "target": "src/lib",
-    "kind": "confirmed",
-    "weight": 1,
-    "evidence": [
-     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/types.ts"
-    ]
-   },
-   {
-    "id": "src/components→src/lib/github",
-    "source": "src/components",
-    "target": "src/lib/github",
-    "kind": "confirmed",
-    "weight": 1,
-    "evidence": [
-     "src/components/RepoSearch.tsx imports src/lib/github/url.ts"
     ]
    },
    {
@@ -449,13 +458,47 @@
     ]
    },
    {
-    "id": "src/components→src/lib",
-    "source": "src/components",
-    "target": "src/lib",
+    "id": "src/app/r→src/components/explorer",
+    "source": "src/app/r",
+    "target": "src/components/explorer",
+    "kind": "confirmed",
+    "weight": 4,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/Explorer.tsx",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/RepoHeader.tsx",
+     "src/app/r/[owner]/[repo]/guide/page.tsx imports src/components/explorer/bits.tsx",
+     "src/app/r/[owner]/[repo]/guide/page.tsx imports src/components/explorer/ShareButton.tsx"
+    ]
+   },
+   {
+    "id": "src/app/r→src/lib/ai",
+    "source": "src/app/r",
+    "target": "src/lib/ai",
     "kind": "confirmed",
     "weight": 1,
     "evidence": [
-     "src/components/SiteHeader.tsx imports src/lib/site.ts"
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/ai/provider.ts"
+    ]
+   },
+   {
+    "id": "src/app/r→src/lib",
+    "source": "src/app/r",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/types.ts",
+     "src/app/r/[owner]/[repo]/guide/page.tsx imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "src/components→src/lib/github",
+    "source": "src/components",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/components/RepoSearch.tsx imports src/lib/github/url.ts"
     ]
    },
    {
@@ -489,6 +532,36 @@
    },
    {
     "from": "src/app/layout.tsx",
+    "to": "src/lib/site.ts",
+    "specifier": "@/lib/site",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/page.tsx",
+    "to": "src/components/LandingDemo.tsx",
+    "specifier": "@/components/LandingDemo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/page.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "@/components/RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/page.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/page.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "@/components/icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/page.tsx",
     "to": "src/lib/site.ts",
     "specifier": "@/lib/site",
     "relation": "import"
@@ -557,6 +630,18 @@
     "from": "src/app/go/route.ts",
     "to": "src/lib/github/url.ts",
     "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/GuideMap.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/GuideMap.tsx",
+    "to": "src/components/explorer/ArchitectureCanvas.tsx",
+    "specifier": "./explorer/ArchitectureCanvas",
     "relation": "import"
    },
    {
@@ -680,18 +765,6 @@
     "relation": "import"
    },
    {
-    "from": "src/components/RepoError.tsx",
-    "to": "src/components/RepoSearch.tsx",
-    "specifier": "./RepoSearch",
-    "relation": "import"
-   },
-   {
-    "from": "src/components/RepoError.tsx",
-    "to": "src/components/icons.tsx",
-    "specifier": "./icons",
-    "relation": "import"
-   },
-   {
     "from": "src/components/explorer/ArchitectureCanvas.tsx",
     "to": "src/lib/analysis/graph.ts",
     "specifier": "@/lib/analysis/graph",
@@ -770,75 +843,27 @@
     "relation": "import"
    },
    {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/components/explorer/Explorer.tsx",
-    "specifier": "@/components/explorer/Explorer",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/components/explorer/RepoHeader.tsx",
-    "specifier": "@/components/explorer/RepoHeader",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/components/RepoError.tsx",
-    "specifier": "@/components/RepoError",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/components/RepoSearch.tsx",
-    "specifier": "@/components/RepoSearch",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/components/SiteHeader.tsx",
-    "specifier": "@/components/SiteHeader",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/lib/ai/provider.ts",
-    "specifier": "@/lib/ai/provider",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/lib/github/client.ts",
-    "specifier": "@/lib/github/client",
-    "relation": "import"
-   },
-   {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "from": "src/app/r/[owner]/[repo]/opengraph-image.tsx",
     "to": "src/lib/github/repo.ts",
     "specifier": "@/lib/github/repo",
     "relation": "import"
    },
    {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "from": "src/app/r/[owner]/[repo]/opengraph-image.tsx",
     "to": "src/lib/github/url.ts",
     "specifier": "@/lib/github/url",
     "relation": "import"
    },
    {
-    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "from": "src/components/LandingDemo.tsx",
     "to": "src/lib/types.ts",
     "specifier": "@/lib/types",
     "relation": "import"
    },
    {
-    "from": "src/components/RepoSearch.tsx",
-    "to": "src/lib/github/url.ts",
-    "specifier": "@/lib/github/url",
-    "relation": "import"
-   },
-   {
-    "from": "src/components/RepoSearch.tsx",
-    "to": "src/components/icons.tsx",
-    "specifier": "./icons",
+    "from": "src/components/LandingDemo.tsx",
+    "to": "src/components/explorer/ArchitectureCanvas.tsx",
+    "specifier": "./explorer/ArchitectureCanvas",
     "relation": "import"
    },
    {
@@ -920,6 +945,84 @@
     "relation": "import"
    },
    {
+    "from": "src/app/robots.ts",
+    "to": "src/lib/site.ts",
+    "specifier": "@/lib/site",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/explorer/Explorer.tsx",
+    "specifier": "@/components/explorer/Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/explorer/RepoHeader.tsx",
+    "specifier": "@/components/explorer/RepoHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/RepoError.tsx",
+    "specifier": "@/components/RepoError",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "@/components/RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/ai/provider.ts",
+    "specifier": "@/lib/ai/provider",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/client.ts",
+    "specifier": "@/lib/github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoError.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "./RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoError.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "./icons",
+    "relation": "import"
+   },
+   {
     "from": "src/lib/analysis/issues.ts",
     "to": "src/lib/types.ts",
     "specifier": "../types",
@@ -944,13 +1047,73 @@
     "relation": "import"
    },
    {
-    "from": "src/components/SiteHeader.tsx",
+    "from": "src/app/sitemap.ts",
     "to": "src/lib/site.ts",
     "specifier": "@/lib/site",
     "relation": "import"
    },
    {
-    "from": "src/components/SiteHeader.tsx",
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/components/GuideMap.tsx",
+    "specifier": "@/components/GuideMap",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/components/RepoError.tsx",
+    "specifier": "@/components/RepoError",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/components/explorer/bits.tsx",
+    "specifier": "@/components/explorer/bits",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/components/explorer/ShareButton.tsx",
+    "specifier": "@/components/explorer/ShareButton",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/lib/github/client.ts",
+    "specifier": "@/lib/github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoSearch.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoSearch.tsx",
     "to": "src/components/icons.tsx",
     "specifier": "./icons",
     "relation": "import"
@@ -1055,6 +1218,18 @@
     "from": "tests/unit/graph.test.ts",
     "to": "tests/unit/fixtures.ts",
     "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/SiteHeader.tsx",
+    "to": "src/lib/site.ts",
+    "specifier": "@/lib/site",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/SiteHeader.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "./icons",
     "relation": "import"
    },
    {
@@ -1247,11 +1422,11 @@
   "externalPackages": [
    {
     "name": "next",
-    "importedBy": 14
+    "importedBy": 21
    },
    {
     "name": "react",
-    "importedBy": 13
+    "importedBy": 15
    },
    {
     "name": "vitest",
@@ -1260,6 +1435,10 @@
    {
     "name": "server-only",
     "importedBy": 3
+   },
+   {
+    "name": "@/data",
+    "importedBy": 2
    },
    {
     "name": "node:fs",
@@ -1302,7 +1481,7 @@
     "importedBy": 1
    }
   ],
-  "analyzedFiles": 59
+  "analyzedFiles": 66
  },
  "summary": {
   "headline": "Understand any codebase. Find your way in. Make your first contribution.",
@@ -1310,15 +1489,11 @@
    {
     "text": "Understand any codebase. Find your way in. Make your first contribution.",
     "source": "GitHub repository description"
-   },
-   {
-    "text": "This is a Next.js project bootstrapped with create-next-app.",
-    "source": "README.md"
    }
   ],
   "techStack": [
    {
-    "text": "Written mostly in TypeScript (98.5%), CSS (1.3%), JavaScript (0.2%).",
+    "text": "Written mostly in TypeScript (98.6%), CSS (1.2%), JavaScript (0.2%).",
     "source": "GitHub languages API"
    },
    {
@@ -1328,6 +1503,10 @@
    {
     "text": "Declares 19 npm dependencies.",
     "source": "package.json"
+   },
+   {
+    "text": "Runs GitHub Actions workflows (CI/CD).",
+    "source": ".github/workflows/"
    }
   ],
   "howToRun": [
@@ -1356,11 +1535,15 @@
     "source": "package.json scripts"
    },
    {
-    "text": "The README has setup sections: “Getting Started”.",
+    "text": "The README has setup sections: “Quick start”.",
     "source": "README.md"
    }
   ],
   "structure": [
+   {
+    "text": "Root: 15 files (TypeScript, JavaScript).",
+    "source": "repository tree"
+   },
    {
     "text": "`tests/`: 12 files (TypeScript) — likely tests (by folder name).",
     "source": "repository tree"
@@ -1370,7 +1553,11 @@
     "source": "repository tree"
    },
    {
-    "text": "Root: 8 files (TypeScript, JavaScript).",
+    "text": "`src/app/`: 8 files (TypeScript, CSS) — likely pages / routes (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/components/`: 7 files (TypeScript) — likely ui components (by folder name).",
     "source": "repository tree"
    },
    {
@@ -1378,19 +1565,11 @@
     "source": "repository tree"
    },
    {
+    "text": "`.github/`: 6 files — likely github config & ci (by folder name).",
+    "source": "repository tree"
+   },
+   {
     "text": "`src/lib/`: 6 files (TypeScript) — likely shared library code (by folder name).",
-    "source": "repository tree"
-   },
-   {
-    "text": "`src/app/`: 5 files (TypeScript, CSS) — likely pages / routes (by folder name).",
-    "source": "repository tree"
-   },
-   {
-    "text": "`src/components/`: 5 files (TypeScript) — likely ui components (by folder name).",
-    "source": "repository tree"
-   },
-   {
-    "text": "`src/app/r/`: 3 files (TypeScript).",
     "source": "repository tree"
    }
   ],
@@ -1401,6 +1580,66 @@
     "calls": [
      "src/app/globals.css",
      "src/lib/site.ts"
+    ]
+   },
+   {
+    "depth": 0,
+    "file": "src/app/page.tsx",
+    "calls": [
+     "src/components/LandingDemo.tsx",
+     "src/components/RepoSearch.tsx",
+     "src/components/SiteHeader.tsx",
+     "src/components/icons.tsx",
+     "src/lib/site.ts"
+    ]
+   },
+   {
+    "depth": 1,
+    "file": "src/components/LandingDemo.tsx",
+    "calls": [
+     "src/lib/types.ts",
+     "src/components/explorer/ArchitectureCanvas.tsx"
+    ]
+   },
+   {
+    "depth": 1,
+    "file": "src/components/RepoSearch.tsx",
+    "calls": [
+     "src/lib/github/url.ts",
+     "src/components/icons.tsx"
+    ]
+   },
+   {
+    "depth": 1,
+    "file": "src/components/SiteHeader.tsx",
+    "calls": [
+     "src/lib/site.ts",
+     "src/components/icons.tsx"
+    ]
+   },
+   {
+    "depth": 2,
+    "file": "src/components/explorer/ArchitectureCanvas.tsx",
+    "calls": [
+     "src/lib/analysis/graph.ts",
+     "src/lib/types.ts"
+    ]
+   },
+   {
+    "depth": 2,
+    "file": "src/lib/github/url.ts",
+    "calls": [
+     "src/lib/types.ts"
+    ]
+   },
+   {
+    "depth": 3,
+    "file": "src/lib/analysis/graph.ts",
+    "calls": [
+     "src/lib/types.ts",
+     "src/lib/analysis/imports.ts",
+     "src/lib/analysis/languages.ts",
+     "src/lib/analysis/structure.ts"
     ]
    }
   ],
@@ -1421,14 +1660,14 @@
  "languages": [
   {
    "language": "TypeScript",
-   "bytes": 237904,
-   "percent": 98.5,
+   "bytes": 263138,
+   "percent": 98.6,
    "color": "#3178c6"
   },
   {
    "language": "CSS",
    "bytes": 3176,
-   "percent": 1.3,
+   "percent": 1.2,
    "color": "#663399"
   },
   {
@@ -1438,5 +1677,5 @@
    "color": "#f1e05a"
   }
  ],
- "totalFiles": 65
+ "totalFiles": 86
 }

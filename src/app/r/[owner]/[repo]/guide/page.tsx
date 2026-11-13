@@ -136,7 +136,7 @@ export default async function GuidePage({ params }: { params: Promise<Params> })
                 ))}
               </ul>
             ) : (
-              <p className="mt-3 text-muted">No open issue currently passes our beginner-friendly checks. <Link href={`${explorer}?tab=contribute`} className="text-amber hover:underline">See all assessed issues</Link>.</p>
+              <p className="mt-3 text-muted">No open issue currently passes our beginner-friendly checks. <Link href={`${explorer}?tab=contribute`} className="text-amber underline decoration-amber/40 underline-offset-2">See all assessed issues</Link>.</p>
             )}
           </section>
 

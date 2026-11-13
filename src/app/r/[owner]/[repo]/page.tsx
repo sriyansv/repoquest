@@ -58,7 +58,7 @@ export default async function RepoPage({ params }: { params: Promise<Params> }) 
     <>
       <SiteHeader>
         <div className="hidden max-w-md md:block">
-          <RepoSearch size="sm" />
+          <RepoSearch size="sm" label="Explore a different repository" />
         </div>
       </SiteHeader>
       <main id="main" className="flex-1">

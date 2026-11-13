@@ -5,7 +5,9 @@ import { useId, useState, useTransition } from "react";
 import { parseRepoInput, repoPath } from "@/lib/github/url";
 import { IconAlert, IconSearch } from "./icons";
 
-export function RepoSearch({ size = "lg", autoFocus = false, initial = "" }: { size?: "lg" | "sm"; autoFocus?: boolean; initial?: string }) {
+export function RepoSearch({
+  size = "lg", autoFocus = false, initial = "", label = "Explore a GitHub repository",
+}: { size?: "lg" | "sm"; autoFocus?: boolean; initial?: string; label?: string }) {
   const router = useRouter();
   const [value, setValue] = useState(initial);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +28,7 @@ export function RepoSearch({ size = "lg", autoFocus = false, initial = "" }: { s
 
   return (
     // Works without JavaScript too: the form falls back to GET /go?url=...
-    <form action="/go" method="get" onSubmit={submit} className="w-full" role="search" aria-label="Explore a GitHub repository">
+    <form action="/go" method="get" onSubmit={submit} className="w-full" role="search" aria-label={label}>
       <div
         className={`group flex items-center gap-2 rounded-xl border bg-surface/80 shadow-[0_0_0_1px_rgba(0,0,0,0.2)] transition focus-within:border-amber/70 focus-within:shadow-[0_0_0_4px_rgba(244,184,96,0.12)] ${
           error ? "border-rose/60" : "border-line-2"
@@ -49,7 +51,7 @@ export function RepoSearch({ size = "lg", autoFocus = false, initial = "" }: { s
           placeholder="github.com/owner/repository"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errId : undefined}
-          className={`min-w-0 flex-1 bg-transparent font-mono text-fg placeholder:text-faint focus:outline-none ${lg ? "py-2.5 text-[15px]" : "py-1.5 text-sm"}`}
+          className={`min-w-0 flex-1 bg-transparent font-mono text-fg placeholder:text-faint focus:outline-none focus-visible:outline-none ${lg ? "py-2.5 text-[15px]" : "py-1.5 text-sm"}`}
         />
         <button
           type="submit"

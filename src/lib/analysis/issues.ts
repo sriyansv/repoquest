@@ -38,7 +38,7 @@ export function excerpt(body: string, max = 280): string {
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/```[\s\S]*?```/g, " [code] ")
     .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/\[([^\]]+)\]\((?:[^()]|\([^()]*\))*\)/g, "$1")
     .replace(/[#>*_`]/g, "")
     .replace(/\s+/g, " ")
     .trim();

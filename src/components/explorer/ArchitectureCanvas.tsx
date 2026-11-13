@@ -16,7 +16,7 @@ const ModuleCard = memo(function ModuleCard({ data }: NodeProps<Node<ModuleData>
     <div
       className={`w-[210px] rounded-xl border bg-surface px-3 py-2.5 text-left shadow-lg shadow-black/30 transition ${
         data.selected ? "border-amber ring-2 ring-amber/25" : data.isEntry ? "border-amber/45" : "border-line-2"
-      } ${data.dim ? "opacity-35" : ""}`}
+      } ${data.dim ? "opacity-50" : ""}`}
     >
       <Handle type="target" position={Position.Top} className="!size-1.5 !border-0 !bg-line-2" />
       <div className="flex items-center gap-1.5">
@@ -35,7 +35,7 @@ const ModuleCard = memo(function ModuleCard({ data }: NodeProps<Node<ModuleData>
 const nodeTypes = { module: ModuleCard };
 
 export function ArchitectureCanvas({
-  graph, showInferred, selected, onSelect, height = "70vh", interactive = true,
+  graph, showInferred, selected, onSelect, height = "70vh", interactive = true, minimap = true,
 }: {
   graph: ArchitectureGraph;
   showInferred: boolean;
@@ -43,6 +43,7 @@ export function ArchitectureCanvas({
   onSelect: (id: string | null) => void;
   height?: string;
   interactive?: boolean;
+  minimap?: boolean;
 }) {
   const edges0 = useMemo(() => graph.edges.filter((e) => showInferred || e.kind === "confirmed"), [graph.edges, showInferred]);
   const positions = useMemo(() => new Map(layoutGraph(graph.nodes, edges0).map((p) => [p.id, p])), [graph.nodes, edges0]);
@@ -80,14 +81,13 @@ export function ArchitectureCanvas({
           id: e.id,
           source: e.source,
           target: e.target,
-          animated: confirmed && Boolean(selected) && active,
           label: confirmed && e.weight > 1 ? String(e.weight) : undefined,
           markerEnd: { type: MarkerType.ArrowClosed, color, width: 16, height: 16 },
           style: {
             stroke: color,
-            strokeWidth: confirmed ? Math.min(1.2 + Math.log2(e.weight + 1) * 0.6, 3.2) : 1.4,
+            strokeWidth: (confirmed ? Math.min(1.2 + Math.log2(e.weight + 1) * 0.6, 3.2) : 1.4) + (selected && active ? 0.8 : 0),
             strokeDasharray: confirmed ? undefined : "5 5",
-            opacity: active ? 0.9 : 0.12,
+            opacity: active ? 0.95 : 0.15,
           },
         };
       }),
@@ -115,7 +115,7 @@ export function ArchitectureCanvas({
       >
         <Background variant={BackgroundVariant.Dots} gap={22} size={1} color="#252b34" />
         {interactive && <Controls showInteractive={false} position="bottom-left" />}
-        {interactive && graph.nodes.length > 8 && (
+        {interactive && minimap && graph.nodes.length > 8 && (
           <MiniMap pannable zoomable nodeColor={(n) => ((n.data as unknown as ModuleData).isEntry ? "#f4b860" : "#313946")} maskColor="rgba(10,12,15,0.7)" className="!hidden sm:!block" />
         )}
       </ReactFlow>

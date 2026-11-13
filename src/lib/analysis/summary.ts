@@ -114,7 +114,7 @@ export function readmeIntro(md: string): string | null {
     p = p
       .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // images/badges
       .replace(/\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)/g, "")
-      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // links → text
+      .replace(/\[([^\]]+)\]\((?:[^()]|\([^()]*\))*\)/g, "$1") // links → text
       .replace(/[*_`]{1,3}([^*_`]+)[*_`]{1,3}/g, "$1")
       .replace(/^>\s*/, "")
       .replace(/\s+/g, " ")
@@ -232,7 +232,7 @@ export function buildSummary(input: SummaryInput): GroundedSummary {
   const headline =
     meta.description ??
     (intro ? intro.split(/(?<=[.!?])\s/)[0] : null) ??
-    `${/^[AEIOU]/i.test(meta.primaryLanguage ?? "s") && meta.primaryLanguage !== "Unknown" ? "An" : "A"} ${meta.primaryLanguage ?? "software"} project by ${meta.owner}.`;
+    `${articleFor(meta.primaryLanguage ?? "software")} ${meta.primaryLanguage ?? "software"} project by ${meta.owner}.`;
 
   return {
     headline,
@@ -243,4 +243,10 @@ export function buildSummary(input: SummaryInput): GroundedSummary {
     executionFlow: traceExecutionFlow(input.entryPoints, input.graph.fileDependencies),
     caveats,
   };
+}
+
+/** "A"/"An", including acronyms read letter by letter ("An HTML", "An SQL", "A Go"). */
+export function articleFor(word: string): "An" | "A" {
+  if (/^[AEIOU]/i.test(word) || /^[FHLMNRSX]([A-Z0-9+#]|$)/.test(word)) return "An";
+  return "A";
 }

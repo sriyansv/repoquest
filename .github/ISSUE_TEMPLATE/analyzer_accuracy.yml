@@ -1,0 +1,60 @@
+name: Wrong or missing analysis
+description: RepoQuest got something wrong or missed something about a repository
+title: "[Analysis]: "
+labels: ["analyzer", "accuracy"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when RepoQuest's analysis of a repository is incorrect or incomplete.
+        Evidence helps us fix the analyzer faster, so please include file paths and line numbers where you can.
+
+  - type: input
+    id: repo-url
+    attributes:
+      label: Repository URL
+      description: The public GitHub repository RepoQuest analyzed.
+      placeholder: https://github.com/owner/name
+    validations:
+      required: true
+
+  - type: dropdown
+    id: part
+    attributes:
+      label: Which part was wrong or missing?
+      options:
+        - Entry points
+        - Architecture edges
+        - Summary facts
+        - Language detection
+        - Issue assessment
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: shown
+    attributes:
+      label: What RepoQuest showed
+      description: Copy or describe the output you saw.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What is actually true
+      description: What is the correct result?
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: File paths and line numbers in the repository that show the correct answer.
+      placeholder: |
+        - src/index.ts:12 exports the CLI entry point
+        - package.json "main" points to dist/server.js
+    validations:
+      required: true

@@ -34,6 +34,8 @@ export function parseRepoInput(raw: string): ParseResult {
   if (!input) return { ok: false, error: "Paste a GitHub repository URL, like https://github.com/vercel/next.js" };
   if (input.length > 300) return { ok: false, error: "That input is too long to be a GitHub repository URL." };
 
+  if (/\s/.test(input)) return { ok: false, error: "That doesn't look like a GitHub URL. Try github.com/owner/repo" };
+
   let path: string;
 
   const ssh = input.match(/^git@github\.com:(.+)$/i);

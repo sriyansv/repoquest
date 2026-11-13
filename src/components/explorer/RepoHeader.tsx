@@ -24,18 +24,18 @@ export function RepoHeader({ analysis }: { analysis: RepoAnalysis }) {
             </p>
             <h1 className="mt-1.5 break-words font-display text-4xl leading-tight tracking-tight sm:text-5xl">{meta.repo}</h1>
             <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-muted">{analysis.summary.headline}</p>
-            <dl className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
-              <div className="flex items-center gap-1.5"><IconStar className="text-amber" /><dt className="sr-only">Stars</dt><dd>{nf.format(meta.stars)}</dd></div>
-              <div className="flex items-center gap-1.5"><IconFork /><dt className="sr-only">Forks</dt><dd>{nf.format(meta.forks)}</dd></div>
+            <ul className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted" aria-label="Repository stats">
+              <li className="flex items-center gap-1.5"><IconStar className="text-amber" /><span className="sr-only">Stars:</span>{nf.format(meta.stars)}</li>
+              <li className="flex items-center gap-1.5"><IconFork /><span className="sr-only">Forks:</span>{nf.format(meta.forks)}</li>
               {analysis.languages[0] && (
-                <div className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full" style={{ background: analysis.languages[0].color }} />
-                  <dt className="sr-only">Main language</dt><dd>{analysis.languages[0].language}</dd>
-                </div>
+                <li className="flex items-center gap-1.5">
+                  <span className="size-2.5 rounded-full" style={{ background: analysis.languages[0].color }} aria-hidden="true" />
+                  <span className="sr-only">Main language:</span>{analysis.languages[0].language}
+                </li>
               )}
-              <div><dt className="sr-only">Files</dt><dd>{analysis.totalFiles.toLocaleString("en-US")} files</dd></div>
-              {meta.license && <div><dt className="sr-only">License</dt><dd>{meta.license}</dd></div>}
-            </dl>
+              <li>{analysis.totalFiles.toLocaleString("en-US")} files</li>
+              {meta.license && <li><span className="sr-only">License:</span>{meta.license}</li>}
+            </ul>
           </div>
           <div className="no-print flex shrink-0 flex-wrap gap-2">
             <ShareButton path={`/r/${meta.owner}/${meta.repo}/guide`} />

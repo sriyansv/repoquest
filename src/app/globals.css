@@ -9,7 +9,7 @@
   --color-line-2: #313946;
   --color-fg: #e8eaed;
   --color-muted: #9aa3b2;
-  --color-faint: #6b7384;
+  --color-faint: #7d8696;
   --color-amber: #f4b860;
   --color-amber-2: #ffd59a;
   --color-teal: #5fd4c4;
@@ -54,10 +54,13 @@ body {
   color: #fff;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-amber);
-  outline-offset: 2px;
-  border-radius: 6px;
+@layer base {
+  /* In a layer so component utilities (e.g. focus-visible:outline-none) can override it. */
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
 /* Subtle topographic grid used behind hero areas. */
@@ -78,7 +81,7 @@ body {
 /* Code viewer tokens */
 .tok-k { color: #c9a7ff; }
 .tok-s { color: #a6e37a; }
-.tok-c { color: #6b7384; font-style: italic; }
+.tok-c { color: #7d8696; font-style: italic; }
 .tok-n { color: #f4b860; }
 .tok-t { color: #5fd4c4; }
 

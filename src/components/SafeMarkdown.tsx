@@ -65,7 +65,7 @@ export function SafeMarkdown({ text, onPath }: { text: string; onPath?: (path: s
 
 function inline(s: string, onPath?: (p: string) => void): ReactNode {
   // Strip link syntax to plain text; keep code/bold/italic.
-  const text = s.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
+  const text = s.replace(/\[([^\]]+)\]\((?:[^()]|\([^()]*\))*\)/g, "$1");
   const out: ReactNode[] = [];
   const re = /(`[^`]+`|\*\*[^*]+\*\*|__[^_]+__|\*[^*\s][^*]*\*)/g;
   let last = 0;

@@ -59,7 +59,7 @@ export function ArchitecturePanel({ analysis, onOpenFile }: { analysis: RepoAnal
               <h2 className="mt-1 break-all font-mono text-lg text-fg">{node.label}</h2>
               <p className="mt-1 text-sm text-muted">
                 {node.fileCount} files{node.languages.length ? ` · ${node.languages.join(", ")}` : ""}
-                {node.role ? ` · likely ${node.role.toLowerCase()} (by folder name)` : ""}
+                {node.role && node.id !== "(root)" ? ` · likely ${node.role.toLowerCase()} (by folder name)` : ""}
               </p>
             </div>
             <Rel title="Depends on" edges={details.out} side="target" onPick={setSelected} />

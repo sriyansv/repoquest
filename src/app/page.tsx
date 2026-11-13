@@ -133,10 +133,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ e
         {/* CTA */}
         <section className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
           <h2 className="font-display text-4xl tracking-tight sm:text-5xl">Pick a repository. <span className="italic text-amber">Start exploring.</span></h2>
-          <div className="mx-auto mt-8 max-w-xl text-left"><RepoSearch /></div>
+          <div className="mx-auto mt-8 max-w-xl text-left"><RepoSearch label="Explore another GitHub repository" /></div>
           <p className="mt-6 text-sm text-faint">
             RepoQuest is MIT-licensed and easy to self-host.{" "}
-            <a href={REPO_URL} className="text-amber hover:underline" target="_blank" rel="noreferrer">Read the source or contribute</a>.
+            <a href={REPO_URL} className="text-amber underline decoration-amber/40 underline-offset-2 hover:decoration-amber" target="_blank" rel="noreferrer">Read the source or contribute</a>.
           </p>
         </section>
       </main>

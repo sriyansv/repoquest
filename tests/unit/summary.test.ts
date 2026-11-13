@@ -97,3 +97,15 @@ describe("buildSummary", () => {
     expect(buildSummary(input({ meta: { ...meta, description: "Hello world thing" } })).headline).toBe("Hello world thing");
   });
 });
+
+describe("articleFor", () => {
+  it("handles vowels and spoken acronyms", async () => {
+    const { articleFor } = await import("@/lib/analysis/summary");
+    expect(articleFor("HTML")).toBe("An");
+    expect(articleFor("Elixir")).toBe("An");
+    expect(articleFor("R")).toBe("An");
+    expect(articleFor("Go")).toBe("A");
+    expect(articleFor("TypeScript")).toBe("A");
+    expect(articleFor("Haskell")).toBe("A");
+  });
+});

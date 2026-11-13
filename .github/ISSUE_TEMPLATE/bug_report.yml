@@ -1,0 +1,72 @@
+name: Bug report
+description: Something in RepoQuest is broken or behaves unexpectedly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please search existing issues first.
+        **Do not report security vulnerabilities here.** See the [security policy](https://github.com/sriyansv/repoquest/security/advisories/new).
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What went wrong?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we see the problem ourselves?
+      placeholder: |
+        1. Go to ...
+        2. Paste the repository URL ...
+        3. Click on ...
+        4. See error
+    validations:
+      required: true
+
+  - type: input
+    id: repo-url
+    attributes:
+      label: Repository being explored (optional)
+      description: The GitHub URL RepoQuest was analyzing when the problem happened. Leave blank if it is private or you prefer not to share it.
+      placeholder: https://github.com/owner/name
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Include any error messages.
+    validations:
+      required: true
+
+  - type: input
+    id: browser-os
+    attributes:
+      label: Browser and operating system
+      description: For example, "Firefox 131 on Ubuntu 24.04" or "Chrome 130 on macOS 15".
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag and drop screenshots here, if they help explain the problem.
+    validations:
+      required: false

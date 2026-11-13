@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest an idea or improvement for RepoQuest
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Before you submit, please check whether a similar request already exists.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem are you trying to solve? Describe the situation, not only the solution.
+      placeholder: I often find it hard to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What would you like RepoQuest to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other ways to solve this problem, including workarounds you use today.
+    validations:
+      required: false
+
+  - type: textarea
+    id: beneficiaries
+    attributes:
+      label: Who benefits
+      description: Who would this help? For example, new contributors, maintainers, people reviewing unfamiliar code, or people without an AI key.
+    validations:
+      required: true

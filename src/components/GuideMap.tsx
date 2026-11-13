@@ -12,5 +12,5 @@ const ArchitectureCanvas = dynamic(() => import("./explorer/ArchitectureCanvas")
 export function GuideMap({ graph }: { graph: ArchitectureGraph }) {
   const [selected, setSelected] = useState<string | null>(null);
   if (!graph.nodes.length) return <p className="p-6 text-sm text-faint">No modules to show.</p>;
-  return <ArchitectureCanvas graph={graph} showInferred selected={selected} onSelect={setSelected} height="460px" />;
+  return <ArchitectureCanvas graph={graph} showInferred selected={selected} onSelect={setSelected} height="460px" minimap={false} />;
 }

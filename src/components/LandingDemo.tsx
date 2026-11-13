@@ -28,7 +28,7 @@ export function LandingDemo() {
       </div>
       <div className="grid md:grid-cols-[minmax(0,1fr)_260px]">
         <div className="h-[420px] border-line md:h-[480px] md:border-r">
-          <ArchitectureCanvas graph={graph} showInferred selected={selected} onSelect={setSelected} height="100%" />
+          <ArchitectureCanvas graph={graph} showInferred selected={selected} onSelect={setSelected} height="100%" minimap={false} />
         </div>
         <div className="border-t border-line p-4 text-sm md:border-t-0" aria-live="polite">
           {node ? (
