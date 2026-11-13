@@ -94,3 +94,12 @@ describe("selectFilesToAnalyze", () => {
     expect(out.sort()).toEqual(["src/b.ts", "src/main.ts"]);
   });
 });
+
+describe("moduleOf inside workspace folders", () => {
+  it("keeps the package name as the module, even when it matches a nested-group name", () => {
+    expect(moduleOf("packages/core/src/index.ts")).toBe("packages/core");
+    expect(moduleOf("crates/core/src/main.rs")).toBe("crates/core");
+    expect(moduleOf("apps/api/src/server.ts")).toBe("apps/api");
+    expect(moduleOf("src/core/engine/x.ts")).toBe("src/core/engine"); // nested groups still split outside workspaces
+  });
+});

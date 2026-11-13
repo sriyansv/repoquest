@@ -26,7 +26,7 @@
     "id": "docs",
     "label": "docs",
     "path": "docs",
-    "fileCount": 6,
+    "fileCount": 13,
     "languages": [],
     "role": "Documentation",
     "isEntry": false
@@ -35,9 +35,10 @@
     "id": "scripts",
     "label": "scripts",
     "path": "scripts",
-    "fileCount": 1,
+    "fileCount": 2,
     "languages": [
-     "TypeScript"
+     "TypeScript",
+     "Shell"
     ],
     "role": "Scripts & tooling",
     "isEntry": false
@@ -146,7 +147,7 @@
     "id": "src/lib/github",
     "label": "src/lib/github",
     "path": "src/lib/github",
-    "fileCount": 3,
+    "fileCount": 4,
     "languages": [
      "TypeScript"
     ],
@@ -157,7 +158,7 @@
     "id": "tests",
     "label": "tests",
     "path": "tests",
-    "fileCount": 14,
+    "fileCount": 15,
     "languages": [
      "TypeScript"
     ],
@@ -230,13 +231,13 @@
     "source": "src/app/api",
     "target": "src/lib/github",
     "kind": "confirmed",
-    "weight": 6,
+    "weight": 7,
     "evidence": [
      "src/app/api/explain/route.ts imports src/lib/github/client.ts",
      "src/app/api/explain/route.ts imports src/lib/github/repo.ts",
      "src/app/api/explain/route.ts imports src/lib/github/url.ts",
      "src/app/api/file/route.ts imports src/lib/github/client.ts",
-     "src/app/api/file/route.ts imports src/lib/github/repo.ts"
+     "src/app/api/file/route.ts imports src/lib/github/guard.ts"
     ]
    },
    {
@@ -244,11 +245,12 @@
     "source": "src/app/api",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 3,
+    "weight": 4,
     "evidence": [
      "src/app/api/explain/route.ts imports src/lib/http.ts",
      "src/app/api/explain/route.ts imports src/lib/ratelimit.ts",
-     "src/app/api/file/route.ts imports src/lib/http.ts"
+     "src/app/api/file/route.ts imports src/lib/http.ts",
+     "src/app/api/file/route.ts imports src/lib/ratelimit.ts"
     ]
    },
    {
@@ -327,9 +329,11 @@
     "source": "src/lib/github",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 3,
+    "weight": 5,
     "evidence": [
      "src/lib/github/client.ts imports src/lib/types.ts",
+     "src/lib/github/guard.ts imports src/lib/ratelimit.ts",
+     "src/lib/github/guard.ts imports src/lib/types.ts",
      "src/lib/github/repo.ts imports src/lib/types.ts",
      "src/lib/github/url.ts imports src/lib/types.ts"
     ]
@@ -397,18 +401,6 @@
     ]
    },
    {
-    "id": "src/lib/github→src/lib/analysis",
-    "source": "src/lib/github",
-    "target": "src/lib/analysis",
-    "kind": "confirmed",
-    "weight": 3,
-    "evidence": [
-     "src/lib/github/repo.ts imports src/lib/analysis/assemble.ts",
-     "src/lib/github/repo.ts imports src/lib/analysis/issues.ts",
-     "src/lib/github/repo.ts imports src/lib/analysis/structure.ts"
-    ]
-   },
-   {
     "id": "src/app/r→src/lib/github",
     "source": "src/app/r",
     "target": "src/lib/github",
@@ -418,7 +410,7 @@
      "src/app/r/[owner]/[repo]/opengraph-image.tsx imports src/lib/github/repo.ts",
      "src/app/r/[owner]/[repo]/opengraph-image.tsx imports src/lib/github/url.ts",
      "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/client.ts",
-     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/repo.ts",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/guard.ts",
      "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/url.ts"
     ]
    },
@@ -430,6 +422,18 @@
     "weight": 1,
     "evidence": [
      "src/lib/http.ts imports src/lib/github/client.ts"
+    ]
+   },
+   {
+    "id": "src/lib/github→src/lib/analysis",
+    "source": "src/lib/github",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/lib/github/repo.ts imports src/lib/analysis/assemble.ts",
+     "src/lib/github/repo.ts imports src/lib/analysis/issues.ts",
+     "src/lib/github/repo.ts imports src/lib/analysis/structure.ts"
     ]
    },
    {
@@ -448,7 +452,7 @@
     "source": "tests",
     "target": "src/lib/analysis",
     "kind": "confirmed",
-    "weight": 13,
+    "weight": 16,
     "evidence": [
      "tests/unit/ai.test.ts imports src/lib/analysis/assemble.ts",
      "tests/unit/assemble.test.ts imports src/lib/analysis/assemble.ts",
@@ -526,12 +530,13 @@
     "source": "tests",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 4,
+    "weight": 5,
     "evidence": [
      "tests/unit/fixtures.ts imports src/lib/types.ts",
      "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts",
      "tests/unit/scale.test.ts imports src/lib/filetree.ts",
-     "tests/unit/scale.test.ts imports src/lib/types.ts"
+     "tests/unit/scale.test.ts imports src/lib/types.ts",
+     "tests/unit/workspace.test.ts imports src/lib/types.ts"
     ]
    },
    {
@@ -752,6 +757,12 @@
    },
    {
     "from": "src/app/api/file/route.ts",
+    "to": "src/lib/github/guard.ts",
+    "specifier": "@/lib/github/guard",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
     "to": "src/lib/github/repo.ts",
     "specifier": "@/lib/github/repo",
     "relation": "import"
@@ -766,6 +777,12 @@
     "from": "src/app/api/file/route.ts",
     "to": "src/lib/http.ts",
     "specifier": "@/lib/http",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
+    "to": "src/lib/ratelimit.ts",
+    "specifier": "@/lib/ratelimit",
     "relation": "import"
    },
    {
@@ -829,39 +846,27 @@
     "relation": "import"
    },
    {
-    "from": "src/lib/github/repo.ts",
-    "to": "src/lib/analysis/assemble.ts",
-    "specifier": "../analysis/assemble",
+    "from": "src/lib/github/guard.ts",
+    "to": "src/lib/ratelimit.ts",
+    "specifier": "../ratelimit",
     "relation": "import"
    },
    {
-    "from": "src/lib/github/repo.ts",
-    "to": "src/lib/analysis/issues.ts",
-    "specifier": "../analysis/issues",
-    "relation": "import"
-   },
-   {
-    "from": "src/lib/github/repo.ts",
-    "to": "src/lib/analysis/structure.ts",
-    "specifier": "../analysis/structure",
-    "relation": "import"
-   },
-   {
-    "from": "src/lib/github/repo.ts",
+    "from": "src/lib/github/guard.ts",
     "to": "src/lib/types.ts",
     "specifier": "../types",
     "relation": "import"
    },
    {
-    "from": "src/lib/github/repo.ts",
+    "from": "src/lib/github/guard.ts",
     "to": "src/lib/github/client.ts",
     "specifier": "./client",
     "relation": "import"
    },
    {
-    "from": "src/lib/github/repo.ts",
-    "to": "src/lib/github/url.ts",
-    "specifier": "./url",
+    "from": "src/lib/github/guard.ts",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "./repo",
     "relation": "import"
    },
    {
@@ -937,9 +942,39 @@
     "relation": "import"
    },
    {
-    "from": "src/lib/github/url.ts",
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "../analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "../analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "../analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
     "to": "src/lib/types.ts",
     "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/github/client.ts",
+    "specifier": "./client",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "./url",
     "relation": "import"
    },
    {
@@ -1016,8 +1051,8 @@
    },
    {
     "from": "src/app/r/[owner]/[repo]/page.tsx",
-    "to": "src/lib/github/repo.ts",
-    "specifier": "@/lib/github/repo",
+    "to": "src/lib/github/guard.ts",
+    "specifier": "@/lib/github/guard",
     "relation": "import"
    },
    {
@@ -1054,6 +1089,12 @@
     "from": "src/lib/analysis/issues.ts",
     "to": "src/lib/analysis/structure.ts",
     "specifier": "./structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/url.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
     "relation": "import"
    },
    {
@@ -1112,8 +1153,8 @@
    },
    {
     "from": "src/app/r/[owner]/[repo]/guide/page.tsx",
-    "to": "src/lib/github/repo.ts",
-    "specifier": "@/lib/github/repo",
+    "to": "src/lib/github/guard.ts",
+    "specifier": "@/lib/github/guard",
     "relation": "import"
    },
    {
@@ -1493,24 +1534,48 @@
     "to": "src/lib/github/url.ts",
     "specifier": "@/lib/github/url",
     "relation": "import"
+   },
+   {
+    "from": "tests/unit/workspace.test.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/workspace.test.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/workspace.test.ts",
+    "to": "src/lib/analysis/imports.ts",
+    "specifier": "@/lib/analysis/imports",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/workspace.test.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
    }
   ],
   "externalPackages": [
    {
     "name": "next",
-    "importedBy": 21
+    "importedBy": 22
    },
    {
     "name": "react",
-    "importedBy": 15
+    "importedBy": 16
    },
    {
     "name": "vitest",
-    "importedBy": 13
+    "importedBy": 14
    },
    {
     "name": "server-only",
-    "importedBy": 3
+    "importedBy": 4
    },
    {
     "name": "@/data",
@@ -1559,9 +1624,13 @@
    {
     "name": "lodash",
     "importedBy": 1
+   },
+   {
+    "name": "@acme/core",
+    "importedBy": 1
    }
   ],
-  "analyzedFiles": 68
+  "analyzedFiles": 71
  },
  "summary": {
   "headline": "Understand any codebase. Find your way in. Make your first contribution.",
@@ -1573,7 +1642,7 @@
   ],
   "techStack": [
    {
-    "text": "Written mostly in TypeScript (98.6%), CSS (1.2%), JavaScript (0.2%).",
+    "text": "Written mostly in TypeScript (97.6%), Shell (1.1%), CSS (1.1%), JavaScript (0.2%).",
     "source": "GitHub languages API"
    },
    {
@@ -1625,7 +1694,11 @@
     "source": "repository tree"
    },
    {
-    "text": "`tests/`: 14 files (TypeScript) — likely tests (by folder name).",
+    "text": "`tests/`: 15 files (TypeScript) — likely tests (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`docs/`: 13 files — likely documentation (by folder name).",
     "source": "repository tree"
    },
    {
@@ -1646,10 +1719,6 @@
    },
    {
     "text": "`.github/`: 6 files — likely github config & ci (by folder name).",
-    "source": "repository tree"
-   },
-   {
-    "text": "`docs/`: 6 files — likely documentation (by folder name).",
     "source": "repository tree"
    }
   ],
@@ -1740,14 +1809,20 @@
  "languages": [
   {
    "language": "TypeScript",
-   "bytes": 269291,
-   "percent": 98.6,
+   "bytes": 283270,
+   "percent": 97.6,
    "color": "#3178c6"
+  },
+  {
+   "language": "Shell",
+   "bytes": 3337,
+   "percent": 1.1,
+   "color": "#89e051"
   },
   {
    "language": "CSS",
    "bytes": 3295,
-   "percent": 1.2,
+   "percent": 1.1,
    "color": "#663399"
   },
   {
@@ -1757,5 +1832,5 @@
    "color": "#f1e05a"
   }
  ],
- "totalFiles": 93
+ "totalFiles": 103
 }

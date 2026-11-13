@@ -19,6 +19,8 @@ export interface RawRepoData {
   githubLanguages: Record<string, number> | null;
   manifests: Record<string, string | null>;
   sourceFiles: SourceFile[];
+  /** package.json / Cargo.toml files below the root, for workspace (monorepo) import resolution. */
+  workspaceManifests?: { path: string; content: string }[];
   issues: GitHubIssue[] | null;
   issuesError: string | null;
   rateLimit: RateLimitInfo | null;
@@ -60,6 +62,7 @@ export function assembleAnalysis(raw: RawRepoData, now = new Date()): RepoAnalys
     entryPoints,
     tsconfig: raw.manifests["tsconfig.json"],
     goModule,
+    workspaceManifests: raw.workspaceManifests,
   });
 
   const languages = computeLanguages(raw.githubLanguages, raw.tree);
@@ -104,4 +107,19 @@ export function assembleAnalysis(raw: RawRepoData, now = new Date()): RepoAnalys
     rateLimit: raw.rateLimit,
     notices: raw.notices,
   };
+}
+
+/** Workspace manifests worth reading: package.json / Cargo.toml below the root, shallowest first. */
+export function workspaceManifestPaths(tree: TreeEntry[], limit = 60): string[] {
+  return tree
+    .filter((e) => {
+      if (e.type !== "blob" || isIgnoredPath(e.path)) return false;
+      const parts = e.path.split("/");
+      const base = parts[parts.length - 1];
+      return (base === "package.json" || base === "Cargo.toml") && parts.length >= 2 && parts.length <= 4 &&
+        !/(^|\/)(examples?|fixtures?|test|tests|__tests__|e2e|benchmarks?)\//i.test(e.path);
+    })
+    .map((e) => e.path)
+    .sort((a, b) => a.split("/").length - b.split("/").length || a.localeCompare(b))
+    .slice(0, limit);
 }

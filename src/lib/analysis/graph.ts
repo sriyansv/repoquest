@@ -1,7 +1,7 @@
 import type {
   ArchitectureGraph, EntryPoint, FileDependency, FlowStep, ModuleEdge, ModuleNode, SourceFile, TreeEntry,
 } from "../types";
-import { aliasesFromTsconfig, extractImports, packageName, resolveImport } from "./imports";
+import { aliasesFromTsconfig, extractImports, packageName, resolveImport, workspacePackages } from "./imports";
 import { languageOf } from "./languages";
 import { isIgnoredPath, moduleOf, roleOfModule, ROOT_MODULE } from "./structure";
 
@@ -20,11 +20,17 @@ export interface GraphInput {
   entryPoints: EntryPoint[];
   tsconfig?: string | null;
   goModule?: string | null;
+  /** Manifests of packages inside the repo (packages/x/package.json, crates/y/Cargo.toml). */
+  workspaceManifests?: { path: string; content: string }[];
 }
 
 export function buildFileDependencies(input: GraphInput): { deps: FileDependency[]; external: Map<string, number> } {
   const fileSet = new Set(input.tree.filter((e) => e.type === "blob").map((e) => e.path));
-  const ctx = { files: fileSet, aliases: aliasesFromTsconfig(input.tsconfig ?? null, fileSet) };
+  const ctx = {
+    files: fileSet,
+    aliases: aliasesFromTsconfig(input.tsconfig ?? null, fileSet),
+    workspace: workspacePackages(input.workspaceManifests ?? [], fileSet),
+  };
   const deps: FileDependency[] = [];
   const external = new Map<string, number>();
   const seen = new Set<string>();

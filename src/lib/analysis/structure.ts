@@ -6,6 +6,9 @@ const CONTAINER_DIRS = new Set([
   "src", "lib", "app", "apps", "packages", "pkg", "internal", "cmd", "source", "modules", "services", "crates", "libs",
 ]);
 
+/** Top-level folders whose children are separately named packages. */
+const WORKSPACE_DIRS = new Set(["packages", "apps", "crates", "libs", "modules", "services"]);
+
 /** Second-level folders that usually group several sub-modules (src/components/forms, ...). */
 const NESTED_GROUPS = new Set(["components", "features", "routes", "server", "core", "utils", "api"]);
 
@@ -25,8 +28,13 @@ export function moduleOf(path: string): string {
   const parts = path.split("/");
   if (parts.length === 1) return ROOT_MODULE;
   if (CONTAINER_DIRS.has(parts[0].toLowerCase()) && parts.length >= 3) {
-    // Nested containers split one level deeper: src/lib/github/x.ts → src/lib/github
-    if (parts.length >= 4 && (CONTAINER_DIRS.has(parts[1].toLowerCase()) || NESTED_GROUPS.has(parts[1].toLowerCase()))) {
+    // Nested containers split one level deeper: src/lib/github/x.ts → src/lib/github.
+    // Not inside workspace folders, where the second segment is a package name (packages/core/src/x.ts → packages/core).
+    if (
+      parts.length >= 4 &&
+      !WORKSPACE_DIRS.has(parts[0].toLowerCase()) &&
+      (CONTAINER_DIRS.has(parts[1].toLowerCase()) || NESTED_GROUPS.has(parts[1].toLowerCase()))
+    ) {
       return `${parts[0]}/${parts[1]}/${parts[2]}`;
     }
     // packages/foo/src/... → packages/foo

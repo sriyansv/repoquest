@@ -26,6 +26,8 @@ export function stripComments(code: string, style: "c" | "hash" | "html"): strin
     .replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
 }
 
+const RUST_BUILTIN = new Set(["crate", "self", "super", "std", "core", "alloc", "proc_macro", "test"]);
+
 const JS_EXT = ["ts", "tsx", "js", "jsx", "mjs", "cjs", "mts", "cts", "vue", "svelte", "astro"];
 const PY_EXT = ["py", "pyi"];
 
@@ -77,6 +79,14 @@ export function extractImports(path: string, code: string, ctx: { goModule?: str
     const src = stripComments(code, "c");
     for (const m of src.matchAll(/^\s*(?:pub(?:\([\w]+\))?\s+)?mod\s+(\w+)\s*;/gm)) out.push({ specifier: `mod:${m[1]}`, kind: "relative" });
     for (const m of src.matchAll(/^\s*(?:pub\s+)?use\s+crate::([\w:]+)/gm)) out.push({ specifier: `crate:${m[1]}`, kind: "absolute" });
+    // `use other_crate::x` / `extern crate other_crate`: resolvable only to workspace crates.
+    const seenCrates = new Set<string>();
+    for (const m of src.matchAll(/^\s*(?:pub(?:\([\w]+\))?\s+)?(?:use\s+(?:::)?(\w+)::|extern\s+crate\s+(\w+))/gm)) {
+      const name = m[1] ?? m[2];
+      if (RUST_BUILTIN.has(name) || seenCrates.has(name)) continue;
+      seenCrates.add(name);
+      out.push({ specifier: `rsuse:${name}`, kind: "package" });
+    }
   } else if (ext === "java" || ext === "kt" || ext === "scala") {
     const src = stripComments(code, "c");
     for (const m of src.matchAll(/^\s*import\s+(?:static\s+)?([\w.]+)(?:\.\*)?;?\s*$/gm)) out.push({ specifier: `jvm:${m[1]}`, kind: "absolute" });
@@ -105,8 +115,18 @@ export function extractImports(path: string, code: string, ctx: { goModule?: str
   return out;
 }
 
+/** A package that lives inside this repository (JS workspace package or Rust workspace crate). */
+export interface WorkspacePackage {
+  name: string;
+  dir: string;
+  /** The file an import of the bare package name lands on, if we could determine it. */
+  entry: string | null;
+}
+
 export interface ResolveContext {
   files: Set<string>;
+  /** Workspace packages keyed by import name (JS: package name; Rust: `rs:` + crate name with underscores). */
+  workspace?: Map<string, WorkspacePackage>;
   /** tsconfig-style path aliases, e.g. { "@/": "src/" } */
   aliases: Record<string, string>;
 }
@@ -162,6 +182,7 @@ export function resolveImport(fromPath: string, imp: RawImport, ctx: ResolveCont
           break;
         }
       }
+      if (target === null && ctx.workspace) return resolveWorkspaceJs(spec, ctx.workspace, files);
     }
     if (target === null) return null;
     if (["css", "scss", "less"].includes(ext)) {
@@ -215,6 +236,7 @@ export function resolveImport(fromPath: string, imp: RawImport, ctx: ResolveCont
       const base = fromPath.endsWith("/mod.rs") || /(^|\/)(main|lib)\.rs$/.test(fromPath) ? dir : fromPath.replace(/\.rs$/, "");
       return tryCandidates(joinPath(base, name) ?? "", ["rs"], files, ["mod"]);
     }
+    if (spec.startsWith("rsuse:")) return ctx.workspace?.get(`rs:${spec.slice(6)}`)?.entry ?? null;
     if (spec.startsWith("crate:")) {
       const parts = spec.slice(6).split("::");
       const srcRoot = fromPath.includes("src/") ? fromPath.slice(0, fromPath.indexOf("src/") + 4) : "src/";
@@ -284,4 +306,62 @@ export function aliasesFromTsconfig(tsconfig: string | null, files: Set<string>)
     aliases["~/"] = [...files].some((f) => f.startsWith("src/")) ? "src/" : "";
   }
   return aliases;
+}
+
+function resolveWorkspaceJs(spec: string, workspace: Map<string, WorkspacePackage>, files: Set<string>): string | null {
+  const name = packageName(spec);
+  if (!name) return null;
+  const pkg = workspace.get(name);
+  if (!pkg) return null;
+  const sub = spec.slice(name.length).replace(/^\//, "");
+  if (!sub) return pkg.entry;
+  for (const base of [`${pkg.dir}/${sub}`, `${pkg.dir}/src/${sub}`]) {
+    const hit = tryCandidates(base, JS_EXT, files, ["index"]);
+    if (hit) return hit;
+  }
+  return pkg.entry; // subpath we can't map: still a confirmed dependency on the package
+}
+
+/**
+ * Build the workspace map from package manifests found below the repository root
+ * (e.g. packages/foo/package.json, crates/bar/Cargo.toml). Only packages whose
+ * directory exists in the tree are included, so every resolved edge is real.
+ */
+export function workspacePackages(manifests: { path: string; content: string }[], files: Set<string>): Map<string, WorkspacePackage> {
+  const out = new Map<string, WorkspacePackage>();
+  for (const { path, content } of manifests) {
+    const dir = dirname(path);
+    if (!dir) continue; // the root manifest is the project itself, not a workspace package
+    const file = path.slice(dir.length + 1);
+    if (file === "package.json") {
+      let json: { name?: unknown; source?: unknown; module?: unknown; main?: unknown; exports?: unknown };
+      try {
+        json = JSON.parse(content);
+      } catch {
+        continue;
+      }
+      if (typeof json.name !== "string" || !json.name) continue;
+      const exp = json.exports as Record<string, unknown> | string | undefined;
+      const dot = typeof exp === "string" ? exp : exp && typeof exp === "object" ? (exp["."] as unknown) : undefined;
+      const dotPath =
+        typeof dot === "string" ? dot : dot && typeof dot === "object" ? ((dot as Record<string, unknown>).import ?? (dot as Record<string, unknown>).default) : undefined;
+      const candidates = [json.source, json.module, json.main, dotPath]
+        .filter((c): c is string => typeof c === "string")
+        .map((c) => joinPath(dir, c.replace(/^\.\//, "")))
+        .filter((c): c is string => c !== null);
+      let entry: string | null = null;
+      for (const c of candidates) entry ??= tryCandidates(c, JS_EXT, files, ["index"]);
+      entry ??= tryCandidates(`${dir}/src/index`, JS_EXT, files, []) ?? tryCandidates(`${dir}/index`, JS_EXT, files, []);
+      out.set(json.name, { name: json.name, dir, entry });
+    } else if (file === "Cargo.toml") {
+      const pkgSection = content.match(/\[package\]([\s\S]*?)(?:\n\[|$)/);
+      const name = pkgSection?.[1].match(/^\s*name\s*=\s*"([^"]+)"/m)?.[1];
+      if (!name) continue;
+      const libPath = content.match(/\[lib\][\s\S]*?^\s*path\s*=\s*"([^"]+)"/m)?.[1];
+      const candidates = [libPath ? joinPath(dir, libPath) : null, `${dir}/src/lib.rs`, `${dir}/src/main.rs`];
+      const entry = candidates.find((c): c is string => Boolean(c && files.has(c))) ?? null;
+      out.set(`rs:${name.replace(/-/g, "_")}`, { name, dir, entry });
+    }
+  }
+  return out;
 }

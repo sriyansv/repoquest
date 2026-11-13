@@ -7,7 +7,7 @@
  */
 import { execFileSync } from "node:child_process";
 import { readFileSync, statSync, writeFileSync, mkdirSync } from "node:fs";
-import { assembleAnalysis, MANIFEST_FILES } from "../src/lib/analysis/assemble";
+import { assembleAnalysis, MANIFEST_FILES, workspaceManifestPaths } from "../src/lib/analysis/assemble";
 import { detectEntryPoints, selectFilesToAnalyze } from "../src/lib/analysis/structure";
 import type { TreeEntry } from "../src/lib/types";
 
@@ -51,6 +51,7 @@ const analysis = assembleAnalysis({
   githubLanguages: null,
   manifests,
   sourceFiles,
+  workspaceManifests: workspaceManifestPaths(tree).map((path) => ({ path, content: read(path) })),
   issues: [],
   issuesError: null,
   rateLimit: null,

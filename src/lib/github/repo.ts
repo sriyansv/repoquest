@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { assembleAnalysis, MANIFEST_FILES, type RawRepoData } from "../analysis/assemble";
+import { assembleAnalysis, MANIFEST_FILES, workspaceManifestPaths, type RawRepoData } from "../analysis/assemble";
 import type { GitHubIssue } from "../analysis/issues";
 import { detectEntryPoints, selectFilesToAnalyze } from "../analysis/structure";
 import type { RepoAnalysis, RepoMeta, RepoRef, SourceFile, TreeEntry } from "../types";
@@ -131,7 +131,12 @@ export async function fetchRepoData(ref: RepoRef): Promise<RawRepoData> {
     goMod: manifests["go.mod"],
   });
   const toRead = selectFilesToAnalyze(tree, entryPoints, FILES_TO_ANALYZE);
-  const contents = await mapLimit(toRead, 10, (p) => fetchRawFile(meta.owner, meta.repo, branch, p, 120_000));
+  const wsPaths = workspaceManifestPaths(tree);
+  const [contents, wsContents] = await Promise.all([
+    mapLimit(toRead, 10, (p) => fetchRawFile(meta.owner, meta.repo, branch, p, 120_000)),
+    mapLimit(wsPaths, 8, (p) => fetchRawFile(meta.owner, meta.repo, branch, p, 100_000)),
+  ]);
+  const workspaceManifests = wsPaths.flatMap((path, i) => (wsContents[i] !== null ? [{ path, content: wsContents[i]! }] : []));
   const sourceFiles: SourceFile[] = [];
   toRead.forEach((path, i) => {
     const c = contents[i];
@@ -150,6 +155,7 @@ export async function fetchRepoData(ref: RepoRef): Promise<RawRepoData> {
     githubLanguages: langs,
     manifests,
     sourceFiles,
+    workspaceManifests,
     issues: issueRes.issues,
     issuesError: issueRes.error,
     rateLimit: getLastRateLimit(),
