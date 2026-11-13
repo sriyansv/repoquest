@@ -92,6 +92,7 @@ All variables are optional and **server-side only** (see [`.env.example`](.env.e
 | `AI_MODEL` | Model id. Default `claude-opus-5-5` (Anthropic) / `llama3.1` (Ollama). For lower cost, use a smaller model such as `claude-haiku-5-5`. |
 | `OLLAMA_BASE_URL` | Local Ollama server for free, offline explanations. |
 | `AI_RATE_LIMIT_PER_HOUR` | AI requests per client IP per hour, per server instance (default 20). |
+| `ANALYSIS_RATE_LIMIT_PER_10_MIN` / `FILE_RATE_LIMIT_PER_10_MIN` | Per-IP limits that protect the shared GitHub quota on public deployments (defaults 60 / 300). |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata and social cards. |
 | `NEXT_PUBLIC_REPO_URL` | Source link shown in the header and footer. |
 
@@ -100,8 +101,11 @@ Each repository analysis costs about **6 GitHub API calls** (metadata, tree, REA
 ## Deploy to Vercel
 
 1. Import the repository in Vercel (free Hobby plan works). The framework is detected automatically.
-2. Add `GITHUB_TOKEN` (strongly recommended) and optionally `ANTHROPIC_API_KEY` as environment variables.
-3. Deploy. `vercel.json` raises the AI route's time limit to 120 s.
+2. Add `GITHUB_TOKEN` (a fine-grained token with read-only access to public repositories; required for a public site) and optionally `ANTHROPIC_API_KEY`.
+3. Deploy, set `NEXT_PUBLIC_SITE_URL` to the production URL, and redeploy.
+4. Verify: `./scripts/verify-deployment.sh https://<your-domain> pallets/flask`.
+
+Full step-by-step guide: [docs/PUBLISH.md](docs/PUBLISH.md).
 
 Any Node host works too: `npm run build && npm start`.
 
@@ -121,7 +125,7 @@ Any Node host works too: `npm run build && npm start`.
 * Import analysis is regex-based (no full parser), and reads a sample of up to 80 files per repo, so some edges can be missing. It never invents edges, but absence of an arrow is not proof of independence.
 * Dynamic imports with computed paths, reflection, dependency injection, and monorepo package-name imports (`@org/pkg` → `packages/pkg`) are not yet resolved. See [ROADMAP.md](ROADMAP.md).
 * Linked pull requests for issues aren't checked (that would need extra API calls per issue).
-* The AI rate limiter is in-memory per server instance. Use a shared store for a hard global limit.
+* Rate limits (analysis, file preview, AI) are in-memory per server instance. Use a shared store for a hard global limit.
 * Only public repositories on github.com are supported.
 
 ## Contributing

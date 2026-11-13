@@ -7,6 +7,8 @@ import { isValidOwner, isValidRepoName } from "@/lib/github/url";
 import { errorStatus } from "@/lib/http";
 import { clientKey, LruCache, RateLimiter } from "@/lib/ratelimit";
 
+export const maxDuration = 120;
+
 const limiter = new RateLimiter(Number(process.env.AI_RATE_LIMIT_PER_HOUR) || 20, 60 * 60 * 1000);
 const cache = new LruCache<{ text: string; model: string }>(300);
 

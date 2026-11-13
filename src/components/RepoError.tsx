@@ -4,7 +4,7 @@ import { IconAlert } from "./icons";
 
 const TITLES: Record<string, string> = {
   not_found: "We couldn't find that repository",
-  rate_limited: "GitHub needs a short breather",
+  rate_limited: "Taking a short breather",
   forbidden: "That repository isn't accessible",
   unavailable: "GitHub is unavailable right now",
   network: "We couldn't reach GitHub",

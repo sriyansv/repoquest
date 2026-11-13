@@ -6,6 +6,7 @@ export const alt = "RepoQuest repository map";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const revalidate = 3600;
+export const maxDuration = 60;
 
 export default async function Image({ params }: { params: Promise<{ owner: string; repo: string }> }) {
   const { owner, repo } = await params;

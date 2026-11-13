@@ -98,6 +98,7 @@ All `fetch` calls use `next: { revalidate: 1800 }`, so repeat visits within 30 m
 * Tokens are read only in server code (`import "server-only"` guards the GitHub and AI modules).
 * `/api/file` validates owner/repo names and rejects `..`, `.`, and empty path segments. Files over 400 KB or binary files are refused.
 * `/api/explain` re-fetches content on the server (it never trusts client-sent code), caches answers in an LRU, and rate-limits per IP. Prompts wrap repository content in delimiters, neutralize delimiter look-alikes, and tell the model to treat repository text as data.
+* All visitors share the server's `GITHUB_TOKEN` quota, so `src/lib/github/guard.ts` limits analyses (60 per 10 min) and file previews (300 per 10 min) per client IP. `analyzeRepoForRequest` is wrapped in React `cache()`, so a page view counts once even though metadata, page and guide all request the analysis.
 * AI output is rendered by `SafeMarkdown`, which builds React elements and never uses `dangerouslySetInnerHTML`.
 * Security headers (`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`) are set in `next.config.ts`.
 

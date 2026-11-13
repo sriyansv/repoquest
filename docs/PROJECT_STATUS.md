@@ -1,6 +1,6 @@
 # Project status
 
-_Last updated: 2026-11-13, end of the initial sprint._ Version: **0.1.0** (not yet released).
+_Last updated: 2026-11-13, launch preparation._ Version: **0.1.0**. **Not yet published, not yet deployed, not released.**
 
 ## Feature status
 
@@ -22,6 +22,9 @@ _Last updated: 2026-11-13, end of the initial sprint._ Version: **0.1.0** (not y
 | `npm test` | ✅ 163 passed, 1 skipped (the live test, opt-in) |
 | `LIVE=1 npx vitest run tests/live.test.ts` | ✅ passed (sriyansv/gemsontop) |
 | `npm run build` | ✅ succeeds |
+| Fresh standalone extraction: `npm ci && lint && typecheck && test && build` | ✅ all pass |
+| `scripts/verify-deployment.sh` against a local production build | ✅ 13/13 checks |
+| Per-IP limits (analysis, file preview) | ✅ block at the limit, other IPs unaffected |
 | Playwright e2e (landing, search validation, all tabs, deep links, guide, error pages, iPhone 13) | ✅ all steps pass, **0 console errors**, 0 px horizontal overflow on mobile |
 | axe-core (WCAG 2 A/AA + best practice) on landing, 4 tabs, guide, 404 | ✅ 0 violations |
 | `npm audit --omit=dev` | ✅ 0 vulnerabilities |
@@ -31,7 +34,7 @@ _Last updated: 2026-11-13, end of the initial sprint._ Version: **0.1.0** (not y
 - Import analysis is regex-based and samples ≤ 80 files. Missing arrows are possible; invented arrows are not.
 - Monorepo package-name imports, Go package-level edges, and Java wildcard imports are not resolved (see ROADMAP).
 - `/r/<invalid>` renders the 404 page with HTTP 200 (Next.js streaming with `loading.tsx`); the page is `noindex`.
-- The AI rate limit is in-memory per instance.
+- Rate limits (analysis, file preview, AI) are in-memory per server instance.
 - Issue assessment does not check for linked PRs.
 - The Anthropic provider has not been called with a real key.
 - Header/footer "Source" links point to `https://github.com/sriyansv/repoquest`, which does not exist until you create it (configurable with `NEXT_PUBLIC_REPO_URL`).

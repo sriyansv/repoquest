@@ -7,13 +7,15 @@ import { RepoSearch } from "@/components/RepoSearch";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { aiStatus } from "@/lib/ai/provider";
 import { GitHubError } from "@/lib/github/client";
-import { analyzeRepo } from "@/lib/github/repo";
+import { analyzeRepoForRequest } from "@/lib/github/guard";
 import { isValidOwner, isValidRepoName } from "@/lib/github/url";
 import type { RepoAnalysis } from "@/lib/types";
 
 type Params = { owner: string; repo: string };
 
 export const revalidate = 1800;
+// Large repositories need ~90 fetches on a cold cache.
+export const maxDuration = 60;
 
 function decode(params: Params): Params {
   try {
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { owner, repo } = decode(await params);
   if (!isValidOwner(owner) || !isValidRepoName(repo)) return { title: "Repository not found" };
   try {
-    const a = await analyzeRepo(owner, repo);
+    const a = await analyzeRepoForRequest(owner, repo);
     const description = `Explore ${a.meta.fullName}: ${a.summary.headline}`.slice(0, 200);
     return {
       title: `${a.meta.fullName} explorer`,
@@ -48,7 +50,7 @@ export default async function RepoPage({ params }: { params: Promise<Params> }) 
   let analysis: RepoAnalysis | null = null;
   let error: GitHubError | null = null;
   try {
-    analysis = await analyzeRepo(owner, repo);
+    analysis = await analyzeRepoForRequest(owner, repo);
   } catch (err) {
     if (err instanceof GitHubError) error = err;
     else throw err;

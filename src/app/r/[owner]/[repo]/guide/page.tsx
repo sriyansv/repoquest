@@ -7,18 +7,20 @@ import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { InlineCode, SourceChip } from "@/components/explorer/bits";
 import { ShareButton } from "@/components/explorer/ShareButton";
 import { GitHubError } from "@/lib/github/client";
-import { analyzeRepo } from "@/lib/github/repo";
+import { analyzeRepoForRequest } from "@/lib/github/guard";
 import { githubBlobUrl, isValidOwner, isValidRepoName } from "@/lib/github/url";
 import type { RepoAnalysis } from "@/lib/types";
 
 type Params = { owner: string; repo: string };
 export const revalidate = 1800;
+// Large repositories need ~90 fetches on a cold cache.
+export const maxDuration = 60;
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { owner, repo } = await params;
   if (!isValidOwner(owner) || !isValidRepoName(repo)) return { title: "Not found" };
   try {
-    const a = await analyzeRepo(owner, repo);
+    const a = await analyzeRepoForRequest(owner, repo);
     const description = `A beginner's guide to ${a.meta.fullName}: ${a.summary.headline}`.slice(0, 200);
     return {
       title: `${a.meta.fullName}: a newcomer's guide`,
@@ -37,7 +39,7 @@ export default async function GuidePage({ params }: { params: Promise<Params> })
   if (!isValidOwner(owner) || !isValidRepoName(repo)) notFound();
   let a: RepoAnalysis;
   try {
-    a = await analyzeRepo(owner, repo);
+    a = await analyzeRepoForRequest(owner, repo);
   } catch (err) {
     if (!(err instanceof GitHubError)) throw err;
     return (
