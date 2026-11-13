@@ -1,5 +1,6 @@
 import type { EntryPoint, TreeEntry } from "../types";
 import { isProbablyBinary, isSourceFile } from "./languages";
+import { exportsEntry, scriptWorkingDir } from "./manifest";
 
 /** Directories whose children are the "real" modules (src/lib, packages/foo, ...). */
 const CONTAINER_DIRS = new Set([
@@ -108,6 +109,12 @@ export interface PackageJson {
   workspaces?: string[] | { packages?: string[] };
 }
 
+/** Entry files to look for inside an app directory that a root script runs in. */
+const APP_ENTRY_CANDIDATES = [
+  "src/main.tsx", "src/main.ts", "src/index.tsx", "src/index.ts", "index.tsx", "index.ts", "main.tsx", "main.ts",
+  "src/main.jsx", "src/main.js", "src/index.jsx", "src/index.js", "index.js", "app/page.tsx", "src/app/page.tsx", "index.html",
+];
+
 const CONVENTIONAL_ENTRIES: [RegExp, string][] = [
   [/^(src\/)?main\.(ts|tsx|js|jsx|mjs)$/, "Conventional JS/TS entry file"],
   [/^(src\/)?index\.(ts|tsx|js|jsx|mjs)$/, "Conventional JS/TS entry file"],
@@ -151,10 +158,8 @@ export function detectEntryPoints(tree: TreeEntry[], manifests: Manifests): Entr
   if (pkg) {
     if (pkg.main) add(pkg.main, 'Declared as "main" in package.json', "confirmed");
     if (pkg.module) add(pkg.module, 'Declared as "module" in package.json', "confirmed");
-    const exp = pkg.exports as Record<string, unknown> | string | undefined;
-    const dot = typeof exp === "string" ? exp : exp && typeof exp === "object" ? exp["."] : undefined;
-    const exportPath = typeof dot === "string" ? dot : dot && typeof dot === "object" ? ((dot as Record<string, unknown>).import ?? (dot as Record<string, unknown>).default) : undefined;
-    if (typeof exportPath === "string") add(exportPath, 'Declared in "exports" in package.json', "confirmed");
+    const exportPath = exportsEntry(pkg.exports);
+    if (exportPath) add(exportPath, 'Declared in "exports" in package.json', "confirmed");
     // Declared files are often build output (dist/…) that isn't committed. Look for the source file it was built from.
     for (const [field, value] of [["main", pkg.main], ["module", pkg.module], ["exports", exportPath]] as const) {
       if (typeof value !== "string" || files.has(normalizeRel(value))) continue;
@@ -166,6 +171,15 @@ export function detectEntryPoints(tree: TreeEntry[], manifests: Manifests): Entr
     for (const script of ["start", "dev", "serve"]) {
       const cmd = pkg.scripts?.[script];
       if (!cmd) continue;
+      const appDir = scriptWorkingDir(cmd);
+      if (appDir) {
+        for (const c of APP_ENTRY_CANDIDATES) {
+          if (files.has(`${appDir}/${c}`)) {
+            add(`${appDir}/${c}`, `"npm run ${script}" runs the app in ${appDir}/ (conventional entry file)`, "convention");
+            break;
+          }
+        }
+      }
       const m = cmd.match(/(?:node|tsx|ts-node|bun|deno run|nodemon)\s+(?:--?\S+\s+)*([\w./-]+\.(?:m?[jt]sx?|cjs))/);
       if (m) add(m[1], `Run by "npm run ${script}"`, "confirmed");
     }

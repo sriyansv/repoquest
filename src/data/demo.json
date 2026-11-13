@@ -125,7 +125,7 @@
     "id": "src/lib/analysis",
     "label": "src/lib/analysis",
     "path": "src/lib/analysis",
-    "fileCount": 7,
+    "fileCount": 8,
     "languages": [
      "TypeScript"
     ],
@@ -158,7 +158,7 @@
     "id": "tests",
     "label": "tests",
     "path": "tests",
-    "fileCount": 16,
+    "fileCount": 17,
     "languages": [
      "TypeScript"
     ],
@@ -452,7 +452,7 @@
     "source": "tests",
     "target": "src/lib/analysis",
     "kind": "confirmed",
-    "weight": 18,
+    "weight": 20,
     "evidence": [
      "tests/unit/ai.test.ts imports src/lib/analysis/assemble.ts",
      "tests/unit/assemble.test.ts imports src/lib/analysis/assemble.ts",
@@ -530,13 +530,13 @@
     "source": "tests",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 6,
+    "weight": 7,
     "evidence": [
      "tests/unit/fixtures.ts imports src/lib/types.ts",
      "tests/unit/launch-fixes.test.ts imports src/lib/types.ts",
+     "tests/unit/manifest.test.ts imports src/lib/types.ts",
      "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts",
-     "tests/unit/scale.test.ts imports src/lib/filetree.ts",
-     "tests/unit/scale.test.ts imports src/lib/types.ts"
+     "tests/unit/scale.test.ts imports src/lib/filetree.ts"
     ]
    },
    {
@@ -936,6 +936,12 @@
     "relation": "import"
    },
    {
+    "from": "src/lib/analysis/imports.ts",
+    "to": "src/lib/analysis/manifest.ts",
+    "specifier": "./manifest",
+    "relation": "import"
+   },
+   {
     "from": "src/lib/http.ts",
     "to": "src/lib/github/client.ts",
     "specifier": "./github/client",
@@ -1266,18 +1272,6 @@
     "relation": "import"
    },
    {
-    "from": "src/lib/analysis/structure.ts",
-    "to": "src/lib/types.ts",
-    "specifier": "../types",
-    "relation": "import"
-   },
-   {
-    "from": "src/lib/analysis/structure.ts",
-    "to": "src/lib/analysis/languages.ts",
-    "specifier": "./languages",
-    "relation": "import"
-   },
-   {
     "from": "tests/unit/fixtures.ts",
     "to": "src/lib/types.ts",
     "specifier": "@/lib/types",
@@ -1362,21 +1356,21 @@
     "relation": "import"
    },
    {
-    "from": "src/lib/analysis/summary.ts",
+    "from": "src/lib/analysis/structure.ts",
     "to": "src/lib/types.ts",
     "specifier": "../types",
     "relation": "import"
    },
    {
-    "from": "src/lib/analysis/summary.ts",
-    "to": "src/lib/analysis/graph.ts",
-    "specifier": "./graph",
+    "from": "src/lib/analysis/structure.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./languages",
     "relation": "import"
    },
    {
-    "from": "src/lib/analysis/summary.ts",
-    "to": "src/lib/analysis/structure.ts",
-    "specifier": "./structure",
+    "from": "src/lib/analysis/structure.ts",
+    "to": "src/lib/analysis/manifest.ts",
+    "specifier": "./manifest",
     "relation": "import"
    },
    {
@@ -1419,6 +1413,24 @@
     "from": "src/components/explorer/OverviewPanel.tsx",
     "to": "src/components/explorer/Explorer.tsx",
     "specifier": "./Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "./graph",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "./structure",
     "relation": "import"
    },
    {
@@ -1485,6 +1497,24 @@
     "from": "tests/unit/launch-fixes.test.ts",
     "to": "tests/unit/fixtures.ts",
     "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/manifest.test.ts",
+    "to": "src/lib/analysis/manifest.ts",
+    "specifier": "@/lib/analysis/manifest",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/manifest.test.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "@/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/manifest.test.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
     "relation": "import"
    },
    {
@@ -1595,7 +1625,7 @@
    },
    {
     "name": "vitest",
-    "importedBy": 15
+    "importedBy": 16
    },
    {
     "name": "server-only",
@@ -1654,7 +1684,7 @@
     "importedBy": 1
    }
   ],
-  "analyzedFiles": 72
+  "analyzedFiles": 74
  },
  "summary": {
   "headline": "Understand any codebase. Find your way in. Make your first contribution.",
@@ -1714,7 +1744,7 @@
   ],
   "structure": [
    {
-    "text": "`tests/`: 16 files (TypeScript) — likely tests (by folder name).",
+    "text": "`tests/`: 17 files (TypeScript) — likely tests (by folder name).",
     "source": "repository tree"
    },
    {
@@ -1734,11 +1764,11 @@
     "source": "repository tree"
    },
    {
-    "text": "`src/components/`: 7 files (TypeScript) — likely ui components (by folder name).",
+    "text": "`src/lib/analysis/`: 8 files (TypeScript).",
     "source": "repository tree"
    },
    {
-    "text": "`src/lib/analysis/`: 7 files (TypeScript).",
+    "text": "`src/components/`: 7 files (TypeScript) — likely ui components (by folder name).",
     "source": "repository tree"
    },
    {
@@ -1833,7 +1863,7 @@
  "languages": [
   {
    "language": "TypeScript",
-   "bytes": 288661,
+   "bytes": 294021,
    "percent": 97.6,
    "color": "#3178c6"
   },
@@ -1856,5 +1886,5 @@
    "color": "#f1e05a"
   }
  ],
- "totalFiles": 104
+ "totalFiles": 106
 }

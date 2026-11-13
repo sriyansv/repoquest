@@ -1,5 +1,6 @@
 import type { DependencyRelation } from "../types";
 import { extOf } from "./languages";
+import { exportsEntry } from "./manifest";
 
 /**
  * Lightweight, regex-based import extraction.
@@ -341,16 +342,14 @@ export function workspacePackages(manifests: { path: string; content: string }[]
         continue;
       }
       if (typeof json.name !== "string" || !json.name) continue;
-      const exp = json.exports as Record<string, unknown> | string | undefined;
-      const dot = typeof exp === "string" ? exp : exp && typeof exp === "object" ? (exp["."] as unknown) : undefined;
-      const dotPath =
-        typeof dot === "string" ? dot : dot && typeof dot === "object" ? ((dot as Record<string, unknown>).import ?? (dot as Record<string, unknown>).default) : undefined;
+      const dotPath = exportsEntry(json.exports);
       const candidates = [json.source, json.module, json.main, dotPath]
         .filter((c): c is string => typeof c === "string")
         .map((c) => joinPath(dir, c.replace(/^\.\//, "")))
         .filter((c): c is string => c !== null);
       let entry: string | null = null;
       for (const c of candidates) entry ??= tryCandidates(c, JS_EXT, files, ["index"]);
+      for (const c of candidates) entry ??= builtToSource(c, files);
       entry ??= tryCandidates(`${dir}/src/index`, JS_EXT, files, []) ?? tryCandidates(`${dir}/index`, JS_EXT, files, []);
       out.set(json.name, { name: json.name, dir, entry });
     } else if (file === "Cargo.toml") {
@@ -364,4 +363,16 @@ export function workspacePackages(manifests: { path: string; content: string }[]
     }
   }
   return out;
+}
+
+/** dist/x.js inside a package → src/x.ts (or similar) when the built file isn't committed. */
+function builtToSource(path: string, files: Set<string>): string | null {
+  const m = path.match(/^(.*?)(?:\/|^)(?:dist|distribution|build|lib|out|esm|cjs)\/(.+)\.(?:m?js|cjs)$/);
+  if (!m) return null;
+  const [, dir, rest] = m;
+  const prefix = dir ? `${dir}/` : "";
+  for (const stem of [`${prefix}${rest}`, `${prefix}src/${rest}`, `${prefix}source/${rest}`]) {
+    for (const ext of ["ts", "tsx", "mts", "js", "jsx"]) if (files.has(`${stem}.${ext}`)) return `${stem}.${ext}`;
+  }
+  return null;
 }
