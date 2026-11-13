@@ -85,3 +85,7 @@ See `docs/PROJECT_STATUS.md` for the exact commands and outcomes.
 **Production QA:** Playwright e2e (desktop + iPhone 13) with 0 console errors; axe 0 violations on 7 pages; screenshots retaken from production (ripgrep, excalidraw).
 
 **Model routing in this session:** all work ran in the main session (Opus). No subagents were used, because every step depended on live credentials and production state in this session.
+
+**Release:** creating the `v0.1.0` tag was attempted after the final verification (13/13 checks with BurntSushi/ripgrep, CI runs 1–5 all green). The session's git proxy rejected the tag push with HTTP 403, and no GitHub tool available to the session can create tags or releases. The release is left to the owner (NEXT_STEPS #2). Nothing was published under a tag.
+
+**Vercel firewall:** a rate-limit rule ("Analysis rate limit", `/r/*`, 120 requests per 600 s per IP, follow-up action Deny) remains configured on the project. It is harmless if not enforced and helpful if Vercel starts enforcing it; remove it under Project → Firewall if unwanted.

@@ -7,7 +7,7 @@ _Last updated: 2026-11-13._ Version **0.1.0**.
 | Source | https://github.com/sriyansv/repoquest (public, MIT, default branch `main`) |
 | Production | https://repoquest-seven.vercel.app (Vercel Hobby, auto-deploys from `main`) |
 | CI | GitHub Actions `CI` (lint, typecheck, tests, build) on every push and PR |
-| Release | Tag `v0.1.0`. The GitHub Release object is created by the owner (see NEXT_STEPS) |
+| Release | v0.1.0 **not yet published**: notes ready in `docs/RELEASE_NOTES_v0.1.0.md`; the owner creates the tag and release in one step (see NEXT_STEPS #2) |
 
 ## Feature status (verified in production)
 
