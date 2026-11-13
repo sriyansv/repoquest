@@ -26,7 +26,7 @@
     "id": "docs",
     "label": "docs",
     "path": "docs",
-    "fileCount": 1,
+    "fileCount": 6,
     "languages": [],
     "role": "Documentation",
     "isEntry": false
@@ -157,7 +157,7 @@
     "id": "tests",
     "label": "tests",
     "path": "tests",
-    "fileCount": 12,
+    "fileCount": 14,
     "languages": [
      "TypeScript"
     ],
@@ -448,13 +448,13 @@
     "source": "tests",
     "target": "src/lib/analysis",
     "kind": "confirmed",
-    "weight": 10,
+    "weight": 13,
     "evidence": [
      "tests/unit/ai.test.ts imports src/lib/analysis/assemble.ts",
      "tests/unit/assemble.test.ts imports src/lib/analysis/assemble.ts",
+     "tests/unit/components.test.tsx imports src/lib/analysis/assemble.ts",
      "tests/unit/fixtures.ts imports src/lib/analysis/assemble.ts",
-     "tests/unit/fixtures.ts imports src/lib/analysis/issues.ts",
-     "tests/unit/graph.test.ts imports src/lib/analysis/graph.ts"
+     "tests/unit/fixtures.ts imports src/lib/analysis/issues.ts"
     ]
    },
    {
@@ -502,14 +502,36 @@
     ]
    },
    {
+    "id": "tests→src/components/explorer",
+    "source": "tests",
+    "target": "src/components/explorer",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "tests/unit/components.test.tsx imports src/components/explorer/ContributePanel.tsx"
+    ]
+   },
+   {
+    "id": "tests→src/components",
+    "source": "tests",
+    "target": "src/components",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "tests/unit/components.test.tsx imports src/components/SafeMarkdown.tsx"
+    ]
+   },
+   {
     "id": "tests→src/lib",
     "source": "tests",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 2,
+    "weight": 4,
     "evidence": [
      "tests/unit/fixtures.ts imports src/lib/types.ts",
-     "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts"
+     "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts",
+     "tests/unit/scale.test.ts imports src/lib/filetree.ts",
+     "tests/unit/scale.test.ts imports src/lib/types.ts"
     ]
    },
    {
@@ -1143,21 +1165,27 @@
     "relation": "import"
    },
    {
-    "from": "tests/unit/fixtures.ts",
-    "to": "src/lib/types.ts",
-    "specifier": "@/lib/types",
+    "from": "tests/unit/components.test.tsx",
+    "to": "src/components/explorer/ContributePanel.tsx",
+    "specifier": "@/components/explorer/ContributePanel",
     "relation": "import"
    },
    {
-    "from": "tests/unit/fixtures.ts",
+    "from": "tests/unit/components.test.tsx",
+    "to": "src/components/SafeMarkdown.tsx",
+    "specifier": "@/components/SafeMarkdown",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/components.test.tsx",
     "to": "src/lib/analysis/assemble.ts",
     "specifier": "@/lib/analysis/assemble",
     "relation": "import"
    },
    {
-    "from": "tests/unit/fixtures.ts",
-    "to": "src/lib/analysis/issues.ts",
-    "specifier": "@/lib/analysis/issues",
+    "from": "tests/unit/components.test.tsx",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
     "relation": "import"
    },
    {
@@ -1209,15 +1237,21 @@
     "relation": "import"
    },
    {
-    "from": "tests/unit/graph.test.ts",
-    "to": "src/lib/analysis/graph.ts",
-    "specifier": "@/lib/analysis/graph",
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
     "relation": "import"
    },
    {
-    "from": "tests/unit/graph.test.ts",
-    "to": "tests/unit/fixtures.ts",
-    "specifier": "./fixtures",
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "@/lib/analysis/issues",
     "relation": "import"
    },
    {
@@ -1305,9 +1339,15 @@
     "relation": "import"
    },
    {
-    "from": "tests/unit/imports.test.ts",
-    "to": "src/lib/analysis/imports.ts",
-    "specifier": "@/lib/analysis/imports",
+    "from": "tests/unit/graph.test.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/graph.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
     "relation": "import"
    },
    {
@@ -1341,15 +1381,9 @@
     "relation": "import"
    },
    {
-    "from": "tests/unit/issues.test.ts",
-    "to": "src/lib/analysis/issues.ts",
-    "specifier": "@/lib/analysis/issues",
-    "relation": "import"
-   },
-   {
-    "from": "tests/unit/issues.test.ts",
-    "to": "tests/unit/fixtures.ts",
-    "specifier": "./fixtures",
+    "from": "tests/unit/imports.test.ts",
+    "to": "src/lib/analysis/imports.ts",
+    "specifier": "@/lib/analysis/imports",
     "relation": "import"
    },
    {
@@ -1371,15 +1405,57 @@
     "relation": "import"
    },
    {
-    "from": "tests/unit/ratelimit.test.ts",
-    "to": "src/lib/ratelimit.ts",
-    "specifier": "@/lib/ratelimit",
+    "from": "tests/unit/issues.test.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "@/lib/analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/issues.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
     "relation": "import"
    },
    {
     "from": "src/components/explorer/ShareButton.tsx",
     "to": "src/components/icons.tsx",
     "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ratelimit.test.ts",
+    "to": "src/lib/ratelimit.ts",
+    "specifier": "@/lib/ratelimit",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/scale.test.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/scale.test.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "@/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/scale.test.ts",
+    "to": "src/lib/filetree.ts",
+    "specifier": "@/lib/filetree",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/scale.test.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/scale.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
     "relation": "import"
    },
    {
@@ -1430,7 +1506,7 @@
    },
    {
     "name": "vitest",
-    "importedBy": 11
+    "importedBy": 13
    },
    {
     "name": "server-only",
@@ -1469,6 +1545,10 @@
     "importedBy": 1
    },
    {
+    "name": "@testing-library/react",
+    "importedBy": 1
+   },
+   {
     "name": "@/lib",
     "importedBy": 1
    },
@@ -1481,7 +1561,7 @@
     "importedBy": 1
    }
   ],
-  "analyzedFiles": 66
+  "analyzedFiles": 68
  },
  "summary": {
   "headline": "Understand any codebase. Find your way in. Make your first contribution.",
@@ -1545,7 +1625,7 @@
     "source": "repository tree"
    },
    {
-    "text": "`tests/`: 12 files (TypeScript) — likely tests (by folder name).",
+    "text": "`tests/`: 14 files (TypeScript) — likely tests (by folder name).",
     "source": "repository tree"
    },
    {
@@ -1569,7 +1649,7 @@
     "source": "repository tree"
    },
    {
-    "text": "`src/lib/`: 6 files (TypeScript) — likely shared library code (by folder name).",
+    "text": "`docs/`: 6 files — likely documentation (by folder name).",
     "source": "repository tree"
    }
   ],
@@ -1660,13 +1740,13 @@
  "languages": [
   {
    "language": "TypeScript",
-   "bytes": 263138,
+   "bytes": 269291,
    "percent": 98.6,
    "color": "#3178c6"
   },
   {
    "language": "CSS",
-   "bytes": 3176,
+   "bytes": 3295,
    "percent": 1.2,
    "color": "#663399"
   },
@@ -1677,5 +1757,5 @@
    "color": "#f1e05a"
   }
  ],
- "totalFiles": 86
+ "totalFiles": 93
 }

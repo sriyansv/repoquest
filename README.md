@@ -13,6 +13,12 @@ RepoQuest turns an unfamiliar public GitHub repository into a map: what it does,
 
 </div>
 
+![RepoQuest landing page](docs/screenshots/landing.png)
+
+| Architecture map | File explorer |
+|---|---|
+| ![Architecture tab](docs/screenshots/architecture.png) | ![Files tab](docs/screenshots/files.png) |
+
 ---
 
 ## Why
@@ -120,7 +126,7 @@ Any Node host works too: `npm run build && npm start`.
 
 ## Contributing
 
-Contributions are very welcome, especially from first-time contributors. Read [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see [SECURITY.md](SECURITY.md).
+Contributions are very welcome, especially from first-time contributors. Project status and history: [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md), [docs/DEVELOPMENT_LOG.md](docs/DEVELOPMENT_LOG.md). Read [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see [SECURITY.md](SECURITY.md).
 
 ## License
 
