@@ -1,4 +1,6 @@
-# Starter issues to open after publishing
+# Starter issues
+
+> Opened on 2026-11-13 as [#1–#6](https://github.com/sriyansv/repoquest/issues). This file keeps the original drafts.
 
 Each one is a real gap in the current code. Open them on `sriyansv/repoquest` with the labels shown. They are written so RepoQuest's own assessor rates them "good first issue": clear scope, files named, acceptance criteria. Copy the title and body as-is.
 

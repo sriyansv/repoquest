@@ -23,10 +23,14 @@ The page also says: *"Don't quite fit? If you maintain something the ecosystem q
 | Maintainers / library authors | ❌ Not met | RepoQuest is a web app, not a package. It has no dependents or downloads yet. |
 | Core contributors | ❌ Not met | No such role found. |
 | Active contributors | ❓ Unknown, likely not met | Not measured. Check with a GitHub search: `is:pr is:merged author:sriyansv -user:sriyansv merged:>YYYY-MM-DD`. |
-| Community builders | ❌ Not met | RepoQuest has not been published as its own repository yet, so it has 0 external contributors. |
+| Community builders | ❌ Not met | Published 2026-11-13 at https://github.com/sriyansv/repoquest; 0 external contributors, 0 pull requests so far. |
 | Critical infrastructure | ❌ Not met | No OpenSSF score. A new project would score far below 0.4. |
 
 **Conclusion: you are not eligible today under any published track.** Applying now under the "don't quite fit" clause would not be credible either, because nothing depends on RepoQuest yet. That is normal for a project that is one day old, and it is the honest starting point.
+
+## Important note on commit attribution
+
+GitHub currently attributes all commits in `sriyansv/repoquest` to the account **`claude`**, because the commits were made by Claude Code with its own git identity (each also carries a `Co-Authored-By` trailer). Programme reviewers looking at "maintainer" signals will see that. Before applying, make sure your own maintenance activity is visible: reviews, issue triage, releases and commits under your account. Don't rewrite existing history to change authorship; just maintain the project going forward.
 
 ## Realistic path (genuine, no stat manipulation)
 
@@ -44,8 +48,14 @@ Your own **Active contributors** track (100 merged PRs to others' repos in 12 mo
 
 | Date | Metric | Value | Source/link |
 |---|---|---|---|
-| 2026-11-13 | External contributors with merged PRs (12 mo) | 0 | repository not yet public |
-| 2026-11-13 | Stars | n/a | repository not yet public |
+| 2026-11-13 | Repository published | public, MIT | https://github.com/sriyansv/repoquest |
+| 2026-11-13 | Production deployment | live, 13/13 verification checks | https://repoquest-seven.vercel.app |
+| 2026-11-13 | External contributors with merged PRs (12 mo) | 0 | GitHub contributors API |
+| 2026-11-13 | Pull requests (any author) | 0 | GitHub API |
+| 2026-11-13 | Stars / forks | 0 / 0 | GitHub API |
+| 2026-11-13 | Open issues | 6 (starter issues opened by the maintainer) | https://github.com/sriyansv/repoquest/issues |
+| 2026-11-13 | Package dependents / downloads | not applicable (web app, not a published package) | — |
+| 2026-11-13 | Usage | not measured (no analytics installed) | — |
 | | | | |
 
 ## Draft application (fill in only true numbers when you apply)

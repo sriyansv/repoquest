@@ -2,7 +2,7 @@
 
 How to move RepoQuest from the `repoquest/` folder of `sriyansv/gemsontop` into its own public repository, and how to deploy it. Every step ends with a verification. Don't announce anything until the step's check passes.
 
-> Status when this guide was written: **not yet published and not yet deployed.** `github.com/sriyansv/repoquest` does not exist yet.
+> **Status (2026-11-13): published at https://github.com/sriyansv/repoquest and deployed at https://repoquest-seven.vercel.app.** Parts 1 and 2 below were carried out; they remain as the reference for redeploying or self-hosting.
 
 ---
 

@@ -1,5 +1,7 @@
 # Launch kit
 
+> **Status (2026-11-13):** published, deployed and verified (see PROJECT_STATUS.md). No community posts have been made. Posting under your accounts needs your explicit go-ahead, and **adding `GITHUB_TOKEN` first is strongly recommended**, because a launch spike would exhaust GitHub's anonymous 60 requests/hour within minutes.
+
 Rules for this launch:
 - **Only claim what is verified.** No "live" claim before `scripts/verify-deployment.sh` passes, and no numbers (users, stars, analyses) that weren't measured.
 - **No vote or star solicitation**, no sock-puppet accounts, no cross-posting the same text everywhere on one day.
@@ -19,22 +21,22 @@ Rules for this launch:
 - ☐ Read README, CONTRIBUTING and SECURITY once more as a newcomer would
 
 ### B. Publish (see `docs/PUBLISH.md`, Part 1)
-- ☐ Create empty public repo `sriyansv/repoquest`
-- ☐ `git subtree split` + push to `main`
+- ✅ Create empty public repo `sriyansv/repoquest`
+- ✅ `git subtree split` + push to `main` (history preserved)
 - ☐ Fresh clone of the published repo: `npm ci && npm run lint && npm run typecheck && npm test && npm run build`
-- ☐ CI workflow is green on GitHub
+- ✅ CI workflow is green on GitHub
 - ☐ Description, topics, Issues/Discussions on; private vulnerability reporting, Dependabot and secret scanning enabled
 
 ### C. Deploy (Part 2)
-- ☐ Fine-grained `GITHUB_TOKEN` (public repos, read-only) added in Vercel
-- ☐ Deploy; set `NEXT_PUBLIC_SITE_URL`; redeploy
-- ☐ `./scripts/verify-deployment.sh https://<domain> pallets/flask` → "All checks passed."
-- ☐ Manual check on desktop and phone: all four tabs, share link, social card preview
-- ☐ Try 3–5 very different repos (a Python lib, a Go CLI, a big JS monorepo, a tiny static site, a repo with many open issues) and note any wrong analysis as issues. **This is your real pre-launch QA, since the build sandbox could reach only one repository.**
-- ☐ Add the live URL to the README and the repo's About
+- ☐ **Fine-grained `GITHUB_TOKEN` (public repos, read-only) added in Vercel ← owner action, still open**
+- ✅ Deploy; set `NEXT_PUBLIC_SITE_URL`; redeploy
+- ✅ `./scripts/verify-deployment.sh https://repoquest-seven.vercel.app pallets/flask` → "All checks passed."
+- ✅ Automated desktop and phone check against production (Playwright, axe)
+- ✅ Tested 7 real repos in production (flask, ripgrep, excalidraw, fastapi, fzf, got, next.js); 5 analysis bugs found and fixed (see DEVELOPMENT_LOG session 3)
+- ✅ Live URL in README · ☐ add it to the repo's About → Website (owner)
 
 ### D. Make it contributor-ready
-- ☐ Open the issues in `docs/STARTER_ISSUES.md` (5 rate "good first issue" with RepoQuest's own assessor)
+- ✅ Starter issues opened as #1–#6
 - ☐ Tag `v0.1.0` and publish the release (notes below)
 - ☐ Pin one issue: "Feedback wanted: which repos does RepoQuest get wrong?"
 
@@ -78,7 +80,7 @@ Ordered from "fits now" to "fits later". Rules change, so **read each community'
 
 ## 3. Announcements
 
-Fill in `<URL>` only after verification. All statements below are true for v0.1.0 as built.
+Fill in `https://repoquest-seven.vercel.app` only after verification. All statements below are true for v0.1.0 as built.
 
 ### X (under 280 characters)
 
@@ -87,7 +89,7 @@ Fill in `<URL>` only after verification. All statements below are true for v0.1.
 > Paste a URL → architecture map from real imports (guesses marked as guesses), file explorer, and a check of which open issues are realistic first PRs.
 >
 > Free, MIT, built with Claude Code.
-> <URL>
+> https://repoquest-seven.vercel.app
 
 Attach a screenshot of the Architecture tab (`docs/screenshots/architecture.png`) or, better, a fresh one of a well-known repo from the live site.
 
@@ -116,7 +118,7 @@ Title: *"A 'good first issue' label isn't enough: how RepoQuest checks issues fo
 1. The problem: stale, vague, or already-claimed beginner issues
 2. What RepoQuest checks (labels, description, assignees, blockers, staleness) with real code excerpts from `src/lib/analysis/issues.ts`
 3. Confirmed vs inferred: why the map refuses to guess
-4. Try it: `<URL>`; contribute: the starter issues
+4. Try it: `https://repoquest-seven.vercel.app`; contribute: the starter issues
 5. Disclosure: built with Claude Code; the optional AI feature is off by default
 
 ### GitHub release notes: v0.1.0

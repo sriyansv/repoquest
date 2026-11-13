@@ -4,12 +4,15 @@ RepoQuest's roadmap is driven by real limitations found while building and using
 
 ## Now (v0.2): accuracy of the map
 
-- [ ] **Monorepo package imports.** Resolve `@org/pkg` imports to `packages/pkg` by reading workspace `package.json` names. Today they show as external packages.
+- [x] **Monorepo package imports.** JS workspace packages and Rust workspace crates resolve to confirmed edges (v0.1.0).
+- [ ] **Shared rate limiting** across server instances (e.g. Upstash Redis free tier), since in-memory limits don't hold on serverless.
 - [ ] **Python `src/` layouts with namespace packages.** Better resolution when there is no `__init__.py`.
-- [ ] **Go: link to the whole package, not the first file.** Edges currently point at the first `.go` file of the imported package. *(good first issue)*
-- [ ] **Java/Kotlin wildcard imports** (`import com.x.*`) → package directory. *(good first issue)*
-- [ ] **PHP (`use`, `require`) and C# (`using`) import extraction.** *(good first issue, one language per PR)*
-- [ ] Show "N of M files analyzed" per module in the architecture side panel. *(good first issue)*
+- [ ] C# `using` extraction: [#1](https://github.com/sriyansv/repoquest/issues/1) *(good first issue)*
+- [ ] PHP `use`/`require` extraction: [#2](https://github.com/sriyansv/repoquest/issues/2) *(good first issue)*
+- [ ] "Files analyzed" per module: [#3](https://github.com/sriyansv/repoquest/issues/3) *(good first issue)*
+- [ ] Java/Kotlin wildcard imports: [#4](https://github.com/sriyansv/repoquest/issues/4) *(good first issue)*
+- [ ] `/` shortcut for file search: [#5](https://github.com/sriyansv/repoquest/issues/5) *(good first issue)*
+- [ ] Go package-level edges: [#6](https://github.com/sriyansv/repoquest/issues/6) *(help wanted)*
 
 ## Next (v0.3): learning experience
 
@@ -17,7 +20,7 @@ RepoQuest's roadmap is driven by real limitations found while building and using
 - [ ] **Glossary.** Explain detected frameworks (e.g. "What is a Next.js layout?") with links to official docs.
 - [ ] **File-level graph** for a selected module.
 - [ ] **Linked PR detection** for issues via the timeline API (opt-in, to save quota).
-- [ ] **Keyboard shortcuts** (`/` to search files, `g a` for architecture). *(good first issue)*
+- [ ] **More keyboard shortcuts** (`g a` for architecture, etc.)
 - [ ] Light theme. *(good first issue)*
 
 ## Later

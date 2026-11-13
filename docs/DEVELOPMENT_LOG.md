@@ -60,3 +60,28 @@ See `docs/PROJECT_STATUS.md` for the exact commands and outcomes.
 - Docs: `docs/PUBLISH.md` (publish, deploy, release), `docs/LAUNCH.md` (checklist, 10 communities with researched rules, announcements), `docs/STARTER_ISSUES.md` (6 issues; 5 rated "good first issue" by RepoQuest's own assessor, 1 "possible").
 - Research finding: r/opensource reportedly changed its rules in October 2026 to bar AI-assisted projects, so it was removed from the launch plan. goodfirstissue.dev needs ≥ 10 contributors, so it's a later milestone.
 - **Not done (needs the owner's accounts):** creating `sriyansv/repoquest`, Vercel deployment, release tag. Nothing has been published or deployed.
+
+## Session 3: 2026-11-13 (publication and deployment)
+
+**Access.** This session could not create repositories or reach Vercel on its own. The owner created the empty `sriyansv/repoquest` and granted access. A new personal cloud environment opened `api.vercel.com`, `vercel.com` and later `repoquest-seven.vercel.app`. The owner supplied a Vercel token through the secure credential form, so the value was never visible to the session or logged. The first token couldn't create projects; a full-account token replaced it.
+
+**Published.** `git subtree split --prefix=repoquest` pushed to `sriyansv/repoquest` `main` with history preserved (5 commits). The repo is public, `main` is the default branch, and GitHub recognises the MIT licence. CI run #1 passed.
+
+**Deployed.** A Vercel project `repoquest` was created in the same Hobby scope as the existing `gemsontop` project (left untouched) and linked to the GitHub repo, so pushes to `main` auto-deploy. Node was pinned to 22.x, the version all tests ran on. Env: `NEXT_PUBLIC_REPO_URL`, `NEXT_PUBLIC_SITE_URL=https://repoquest-seven.vercel.app`, `NEXT_TELEMETRY_DISABLED`. `repoquest.vercel.app` belongs to someone else. `verify-deployment.sh` passed 13/13 against production with `pallets/flask`.
+
+**Issues opened:** #1–#6 from `docs/STARTER_ISSUES.md`.
+
+**Bugs found by testing production on real repositories (all fixed, with regression tests):**
+| Repo | Symptom | Cause | Fix |
+|---|---|---|---|
+| BurntSushi/ripgrep | 21 modules, 1 confirmed edge | Workspace crates imported by name (`use grep_searcher::…`) | Workspace package resolution (JS + Rust) → 14 edges |
+| (unit test) | `packages/core/src` shown as a module | `core` treated as a nested group inside a workspace folder | Workspace folders keep the package as the module |
+| fastapi/fastapi | `docs_src` had no edges | Sampler preferred empty `__init__.py` files | Skip empty files → `docs_src → fastapi` (27 statements) |
+| sindresorhus/got | No entry point | Top-level conditional `exports` pointing at uncommitted `dist/` | Shared `exportsEntry` parser + build-output → source mapping → `source/index.ts` |
+| excalidraw/excalidraw | Dockerfile as the only entry; 12/12 issues "good first" | Root `start` runs `yarn --cwd ./excalidraw-app`; no age signal | Follow script working dir → `excalidraw-app/index.tsx`; flag issues open 2+ years → 10/12 |
+
+**Rate limiting in production:** see PROJECT_STATUS "Known issues" #2. Tested with 75, 135 and 135 requests (WAF with the 429 action, then the Deny action) and 70 explorer requests: none were limited. Documented honestly rather than claimed.
+
+**Production QA:** Playwright e2e (desktop + iPhone 13) with 0 console errors; axe 0 violations on 7 pages; screenshots retaken from production (ripgrep, excalidraw).
+
+**Model routing in this session:** all work ran in the main session (Opus). No subagents were used, because every step depended on live credentials and production state in this session.

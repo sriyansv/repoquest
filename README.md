@@ -6,6 +6,8 @@
 
 RepoQuest turns an unfamiliar public GitHub repository into a map: what it does, how it's organized, where execution starts, and which open issues are realistic for a newcomer.
 
+**Try it: [repoquest-seven.vercel.app](https://repoquest-seven.vercel.app)** · e.g. [BurntSushi/ripgrep](https://repoquest-seven.vercel.app/r/BurntSushi/ripgrep) · [excalidraw/excalidraw](https://repoquest-seven.vercel.app/r/excalidraw/excalidraw)
+
 [![CI](https://github.com/sriyansv/repoquest/actions/workflows/ci.yml/badge.svg)](https://github.com/sriyansv/repoquest/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-f4b860.svg)](LICENSE)
 
@@ -15,9 +17,9 @@ RepoQuest turns an unfamiliar public GitHub repository into a map: what it does,
 
 ![RepoQuest landing page](docs/screenshots/landing.png)
 
-| Architecture map | File explorer |
+| Architecture map (ripgrep) | First-contribution assistant (excalidraw) |
 |---|---|
-| ![Architecture tab](docs/screenshots/architecture.png) | ![Files tab](docs/screenshots/files.png) |
+| ![Architecture tab showing ripgrep's crates and the import statements behind each arrow](docs/screenshots/architecture.png) | ![First contribution tab showing an assessed excalidraw issue](docs/screenshots/contribute.png) |
 
 ---
 
@@ -39,7 +41,7 @@ RepoQuest is built for **beginner developers, students, and first-time open-sour
 | **First-contribution assistant** | Open issues are assessed on their labels **and** their content: description quality, assignees, blocking labels, staleness, and claimed work. Each issue shows the reasoning, possibly relevant files (marked *mentioned* or *keyword guess*), what to understand first, and a link to the original. |
 | **Shareable guide pages** | `/r/owner/repo/guide` is a clean, responsive, print-friendly page with the architecture and key facts, plus generated social preview images. |
 
-Supported for import analysis: JavaScript/TypeScript (incl. `tsconfig` path aliases), Python, Go, Rust, Java/Kotlin/Scala, C/C++, Ruby, HTML, CSS/SCSS. Language statistics cover 50+ languages.
+Supported for import analysis: JavaScript/TypeScript (incl. `tsconfig` path aliases and monorepo workspace packages), Python, Go, Rust (incl. workspace crates), Java/Kotlin/Scala, C/C++, Ruby, HTML, CSS/SCSS. Language statistics cover 50+ languages.
 
 ## Quick start
 
@@ -123,9 +125,9 @@ Any Node host works too: `npm run build && npm start`.
 ## Known limitations
 
 * Import analysis is regex-based (no full parser), and reads a sample of up to 80 files per repo, so some edges can be missing. It never invents edges, but absence of an arrow is not proof of independence.
-* Dynamic imports with computed paths, reflection, dependency injection, and monorepo package-name imports (`@org/pkg` → `packages/pkg`) are not yet resolved. See [ROADMAP.md](ROADMAP.md).
+* Dynamic imports with computed paths, reflection and dependency injection are not resolved. PHP, C# and Java wildcard imports are open [starter issues](https://github.com/sriyansv/repoquest/issues).
 * Linked pull requests for issues aren't checked (that would need extra API calls per issue).
-* Rate limits (analysis, file preview, AI) are in-memory per server instance. Use a shared store for a hard global limit.
+* Rate limits (analysis, file preview, AI) are in-memory per server instance. On the public Vercel deployment they were not observed to trigger in testing (requests are spread across instances), so treat them as best effort; a shared store is on the roadmap.
 * Only public repositories on github.com are supported.
 
 ## Contributing
