@@ -6,6 +6,9 @@ const CONTAINER_DIRS = new Set([
   "src", "lib", "app", "apps", "packages", "pkg", "internal", "cmd", "source", "modules", "services", "crates", "libs",
 ]);
 
+/** Second-level folders that usually group several sub-modules (src/components/forms, ...). */
+const NESTED_GROUPS = new Set(["components", "features", "routes", "server", "core", "utils", "api"]);
+
 /** Directories we never treat as interesting modules. */
 export const IGNORED_DIRS = new Set([
   "node_modules", ".git", "vendor", "dist", "build", "out", ".next", "target", "__pycache__",
@@ -16,12 +19,16 @@ export const ROOT_MODULE = "(root)";
 
 /**
  * Map a file path to the module (directory group) it belongs to.
- * Root-level files → "(root)"; `src/lib/x/y.ts` → "src/lib"; `docs/a.md` → "docs".
+ * Root-level files → "(root)"; `src/lib/y.ts` → "src/lib"; `src/lib/x/y.ts` → "src/lib/x"; `docs/a.md` → "docs".
  */
 export function moduleOf(path: string): string {
   const parts = path.split("/");
   if (parts.length === 1) return ROOT_MODULE;
   if (CONTAINER_DIRS.has(parts[0].toLowerCase()) && parts.length >= 3) {
+    // Nested containers split one level deeper: src/lib/github/x.ts → src/lib/github
+    if (parts.length >= 4 && (CONTAINER_DIRS.has(parts[1].toLowerCase()) || NESTED_GROUPS.has(parts[1].toLowerCase()))) {
+      return `${parts[0]}/${parts[1]}/${parts[2]}`;
+    }
     // packages/foo/src/... → packages/foo
     return `${parts[0]}/${parts[1]}`;
   }

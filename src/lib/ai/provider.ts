@@ -99,7 +99,7 @@ function ollamaProvider(baseUrl: string, model: string): AIProvider {
   };
 }
 
-export function getProvider(env: NodeJS.ProcessEnv = process.env): AIProvider | null {
+export function getProvider(env: Record<string, string | undefined> = process.env): AIProvider | null {
   const choice = (env.AI_PROVIDER ?? "").trim().toLowerCase();
   if (choice === "none") return null;
   if (choice === "ollama") {
@@ -112,7 +112,7 @@ export function getProvider(env: NodeJS.ProcessEnv = process.env): AIProvider | 
   return null;
 }
 
-export function aiStatus(env: NodeJS.ProcessEnv = process.env): { enabled: boolean; provider: string | null } {
+export function aiStatus(env: Record<string, string | undefined> = process.env): { enabled: boolean; provider: string | null } {
   const p = getProvider(env);
   return { enabled: Boolean(p), provider: p ? `${p.id}` : null };
 }

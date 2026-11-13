@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-ink: #0a0c0f;
+  --color-ink-2: #0f1216;
+  --color-surface: #14181d;
+  --color-surface-2: #1a1f26;
+  --color-line: #252b34;
+  --color-line-2: #313946;
+  --color-fg: #e8eaed;
+  --color-muted: #9aa3b2;
+  --color-faint: #6b7384;
+  --color-amber: #f4b860;
+  --color-amber-2: #ffd59a;
+  --color-teal: #5fd4c4;
+  --color-violet: #b49cff;
+  --color-rose: #ff8a8a;
+  --color-lime: #a6e37a;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-rise: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade: fade 0.4s ease both;
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }
 
+:root {
+  color-scheme: dark;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-fg);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-amber) 35%, transparent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Subtle topographic grid used behind hero areas. */
+.bg-topo {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in oklab, var(--color-amber) 10%, transparent), transparent 70%),
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-2) transparent;
+}
+
+/* Code viewer tokens */
+.tok-k { color: #c9a7ff; }
+.tok-s { color: #a6e37a; }
+.tok-c { color: #6b7384; font-style: italic; }
+.tok-n { color: #f4b860; }
+.tok-t { color: #5fd4c4; }
+
+/* React Flow theming */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-controls-button-background-color: var(--color-surface);
+  --xy-controls-button-background-color-hover: var(--color-surface-2);
+  --xy-controls-button-color: var(--color-fg);
+  --xy-controls-button-border-color: var(--color-line);
+  --xy-minimap-background-color: var(--color-ink-2);
+  --xy-edge-label-background-color: var(--color-surface);
+  --xy-edge-label-color: var(--color-muted);
+  --xy-attribution-background-color: transparent;
+}
+.react-flow__attribution a {
+  color: var(--color-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  html, body { background: #fff; color: #111; }
+  .no-print { display: none !important; }
 }

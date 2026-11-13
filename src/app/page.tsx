@@ -1,69 +1,146 @@
-import Image from "next/image";
+import Link from "next/link";
+import { LandingDemo } from "@/components/LandingDemo";
+import { RepoSearch } from "@/components/RepoSearch";
+import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
+import { IconCompass, IconFlag, IconFolder, IconGraph, IconShare, IconSpark } from "@/components/icons";
+import demo from "@/data/demo.json";
+import { REPO_URL } from "@/lib/site";
 
-export default function Home() {
+const EXAMPLES = ["fastapi/fastapi", "excalidraw/excalidraw", "BurntSushi/ripgrep", "sindresorhus/got", "pallets/flask"];
+
+const FEATURES = [
+  { icon: IconFolder, title: "Import any public repo", body: "Paste a GitHub URL. RepoQuest reads the metadata, README, file tree and source with careful rate-limit handling, even for very large projects." },
+  { icon: IconCompass, title: "Explore without cloning", body: "Browse folders, search files, preview highlighted source and jump to entry points. See what each file uses and what uses it." },
+  { icon: IconGraph, title: "A map built from real imports", body: "An interactive architecture diagram you can pan, zoom and click. Relationships confirmed by code are drawn separately from guesses." },
+  { icon: IconSpark, title: "Plain-English explanations", body: "A source-cited summary works with no AI at all. Optional AI explanations get only the fetched files and must cite paths." },
+  { icon: IconFlag, title: "Your first contribution", body: "Open issues are checked for clear descriptions, assignees and blockers, not just labels. Each one comes with likely files and what to learn first." },
+  { icon: IconShare, title: "Shareable guide pages", body: "Every repository gets a clean, responsive guide page with its architecture and key facts. Useful for onboarding docs and READMEs." },
+];
+
+export default async function Home({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <SiteHeader />
+      <main id="main" className="flex-1">
+        {/* Hero */}
+        <section className="relative overflow-hidden">
+          <div className="bg-topo pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div className="relative mx-auto max-w-5xl px-4 pb-16 pt-16 text-center sm:px-6 sm:pt-24">
+            <p className="inline-flex animate-rise items-center gap-2 rounded-full border border-line-2 bg-surface/70 px-3 py-1 text-xs text-muted">
+              <span className="size-1.5 rounded-full bg-teal" /> Open source · free · no sign-up
+            </p>
+            <h1 className="mt-6 animate-rise font-display text-[2.6rem] leading-[1.05] tracking-tight [animation-delay:80ms] sm:text-7xl">
+              Understand any codebase.
+              <br />
+              <span className="italic text-amber">Find your way in.</span>
+              <br />
+              <span className="text-muted">Make your first contribution.</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl animate-rise text-base leading-relaxed text-muted [animation-delay:160ms] sm:text-lg">
+              RepoQuest turns an unfamiliar GitHub repository into a map: what it does, how it&apos;s organized, where execution starts, and which issues are good for a newcomer.
+            </p>
+            <div className="mx-auto mt-9 max-w-2xl animate-rise text-left [animation-delay:240ms]">
+              <RepoSearch autoFocus />
+              {error && <p role="alert" className="mt-2 text-sm text-rose">{error}</p>}
+              <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-sm text-faint">
+                Try:
+                {EXAMPLES.map((e) => (
+                  <Link key={e} href={`/r/${e}`} className="rounded-md border border-line bg-surface/60 px-2 py-0.5 font-mono text-xs text-muted transition hover:border-amber/50 hover:text-fg">
+                    {e}
+                  </Link>
+                ))}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Live demo */}
+        <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6" aria-labelledby="demo-title">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-widest text-amber">Live demo</p>
+              <h2 id="demo-title" className="mt-1 font-display text-3xl tracking-tight sm:text-4xl">RepoQuest, mapping its own source code</h2>
+            </div>
+            <p className="max-w-sm text-sm text-muted">
+              Generated by the same analyzer from {demo.graph.analyzedFiles} files in this project. Drag, zoom, and click a module.
+            </p>
+          </div>
+          <LandingDemo />
+        </section>
+
+        {/* Problem */}
+        <section className="border-y border-line/70 bg-ink-2/60">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1fr_1.3fr]">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-widest text-amber">The problem</p>
+              <h2 className="mt-2 font-display text-4xl leading-tight tracking-tight">Opening a new repository feels like arriving in a city with no map.</h2>
+            </div>
+            <ol className="space-y-6">
+              {[
+                ["Where do I even start?", "Hundreds of files and folders, and no clear sign of which one runs first."],
+                ["How does it fit together?", "READMEs explain how to install a project, rarely how its parts depend on each other."],
+                ["What can I actually work on?", "Issues labelled “good first issue” are often vague, already taken, or blocked on a decision."],
+              ].map(([t, b], i) => (
+                <li key={t} className="flex gap-4">
+                  <span className="font-display text-3xl italic text-faint">0{i + 1}</span>
+                  <div>
+                    <h3 className="font-semibold text-fg">{t}</h3>
+                    <p className="mt-1 text-muted">{b}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-labelledby="features-title">
+          <p className="font-mono text-xs uppercase tracking-widest text-amber">What you get</p>
+          <h2 id="features-title" className="mt-2 max-w-2xl font-display text-4xl tracking-tight">Everything a newcomer needs, in four tabs.</h2>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="bg-ink p-6 transition-colors hover:bg-surface/60">
+                <Icon width={20} height={20} className="text-amber" />
+                <h3 className="mt-4 font-semibold">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Honesty */}
+        <section id="how" className="scroll-mt-20 border-t border-line/70 bg-ink-2/60">
+          <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+            <p className="font-mono text-xs uppercase tracking-widest text-amber">How it works</p>
+            <h2 className="mt-2 max-w-3xl font-display text-4xl tracking-tight">Built to be trusted by people who are still learning.</h2>
+            <div className="mt-10 grid gap-8 md:grid-cols-2">
+              {[
+                ["Confirmed vs inferred, always labelled", "An arrow is “confirmed” only when an import, require, include or <script> statement names a file that exists. Folder-name guesses are drawn dashed and marked as inferred."],
+                ["Every fact cites its source", "Summaries are assembled from the README, manifests and the file tree, and each sentence links back to the file it came from."],
+                ["AI is optional and grounded", "The explorer works fully without AI. If an operator enables Claude (or a free local model), it only sees files fetched from the repository and must say when something isn't shown."],
+                ["Issues are read, not just filtered", "A “good first issue” label alone never earns a recommendation. We check the description, assignees, blocking labels and staleness, and show our reasoning."],
+              ].map(([t, b]) => (
+                <div key={t} className="rounded-xl border border-line bg-ink p-6">
+                  <h3 className="font-semibold">{t}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{b}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
+          <h2 className="font-display text-4xl tracking-tight sm:text-5xl">Pick a repository. <span className="italic text-amber">Start exploring.</span></h2>
+          <div className="mx-auto mt-8 max-w-xl text-left"><RepoSearch /></div>
+          <p className="mt-6 text-sm text-faint">
+            RepoQuest is MIT-licensed and easy to self-host.{" "}
+            <a href={REPO_URL} className="text-amber hover:underline" target="_blank" rel="noreferrer">Read the source or contribute</a>.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        </section>
       </main>
-    </div>
+      <SiteFooter />
+    </>
   );
 }

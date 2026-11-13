@@ -49,14 +49,18 @@ export function extractImports(path: string, code: string, ctx: { goModule?: str
     for (const re of res) for (const m of src.matchAll(re)) push(m[1]);
   } else if (PY_EXT.includes(ext)) {
     const src = stripComments(code, "hash");
-    for (const m of src.matchAll(/^\s*from\s+(\.+[\w.]*|[\w.]+)\s+import\s+([\w*, ()\n]+)/gm)) {
+    // Names may span lines only inside parentheses: `from x import (a,\n b)`.
+    for (const m of src.matchAll(/^[ \t]*from[ \t]+(\.+[\w.]*|[\w.]+)[ \t]+import[ \t]+(\([^)]*\)|[^\n]+)/gm)) {
       const base = m[1];
       if (/^\.+$/.test(base)) {
         // `from . import a, b` → each name is a sibling module
-        for (const name of m[2].replace(/[()\s]/g, "").split(",").filter(Boolean)) push(`${base}${name}`);
+        for (const part of m[2].replace(/[()]/g, "").split(",")) {
+          const name = part.trim().split(/\s+/)[0];
+          if (name && /^\w+$/.test(name)) push(`${base}${name}`);
+        }
       } else push(base);
     }
-    for (const m of src.matchAll(/^\s*import\s+([\w., ]+)$/gm)) {
+    for (const m of src.matchAll(/^[ \t]*import[ \t]+([\w., \t]+)$/gm)) {
       for (const part of m[1].split(",")) push(part.trim().split(/\s+as\s+/)[0]);
     }
   } else if (ext === "go") {

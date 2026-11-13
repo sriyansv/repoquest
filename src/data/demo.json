@@ -1,0 +1,1442 @@
+{
+ "graph": {
+  "nodes": [
+   {
+    "id": "(root)",
+    "label": "root files",
+    "path": "",
+    "fileCount": 8,
+    "languages": [
+     "TypeScript",
+     "JavaScript"
+    ],
+    "role": "Top-level files",
+    "isEntry": false
+   },
+   {
+    "id": "scripts",
+    "label": "scripts",
+    "path": "scripts",
+    "fileCount": 1,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": "Scripts & tooling",
+    "isEntry": false
+   },
+   {
+    "id": "src/app/api",
+    "label": "src/app/api",
+    "path": "src/app/api",
+    "fileCount": 2,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": "Server / API",
+    "isEntry": false
+   },
+   {
+    "id": "src/app",
+    "label": "src/app",
+    "path": "src/app",
+    "fileCount": 5,
+    "languages": [
+     "TypeScript",
+     "CSS"
+    ],
+    "role": "Pages / routes",
+    "isEntry": true
+   },
+   {
+    "id": "src/app/go",
+    "label": "src/app/go",
+    "path": "src/app/go",
+    "fileCount": 1,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "src/app/r",
+    "label": "src/app/r",
+    "path": "src/app/r",
+    "fileCount": 3,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "src/components",
+    "label": "src/components",
+    "path": "src/components",
+    "fileCount": 5,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": "UI components",
+    "isEntry": false
+   },
+   {
+    "id": "src/components/explorer",
+    "label": "src/components/explorer",
+    "path": "src/components/explorer",
+    "fileCount": 10,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "src/lib/ai",
+    "label": "src/lib/ai",
+    "path": "src/lib/ai",
+    "fileCount": 2,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "src/lib/analysis",
+    "label": "src/lib/analysis",
+    "path": "src/lib/analysis",
+    "fileCount": 7,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "src/lib",
+    "label": "src/lib",
+    "path": "src/lib",
+    "fileCount": 6,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": "Shared library code",
+    "isEntry": false
+   },
+   {
+    "id": "src/lib/github",
+    "label": "src/lib/github",
+    "path": "src/lib/github",
+    "fileCount": 3,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": null,
+    "isEntry": false
+   },
+   {
+    "id": "tests",
+    "label": "tests",
+    "path": "tests",
+    "fileCount": 12,
+    "languages": [
+     "TypeScript"
+    ],
+    "role": "Tests",
+    "isEntry": false
+   }
+  ],
+  "edges": [
+   {
+    "id": "src/app→src/lib",
+    "source": "src/app",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/app/layout.tsx imports src/lib/site.ts"
+    ]
+   },
+   {
+    "id": "scripts→src/lib/analysis",
+    "source": "scripts",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "scripts/build-demo.ts imports src/lib/analysis/assemble.ts",
+     "scripts/build-demo.ts imports src/lib/analysis/structure.ts"
+    ]
+   },
+   {
+    "id": "scripts→src/lib",
+    "source": "scripts",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "scripts/build-demo.ts imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "src/app/api→src/lib/ai",
+    "source": "src/app/api",
+    "target": "src/lib/ai",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "src/app/api/explain/route.ts imports src/lib/ai/provider.ts",
+     "src/app/api/explain/route.ts imports src/lib/ai/prompts.ts"
+    ]
+   },
+   {
+    "id": "src/app/api→src/lib/github",
+    "source": "src/app/api",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 6,
+    "evidence": [
+     "src/app/api/explain/route.ts imports src/lib/github/client.ts",
+     "src/app/api/explain/route.ts imports src/lib/github/repo.ts",
+     "src/app/api/explain/route.ts imports src/lib/github/url.ts",
+     "src/app/api/file/route.ts imports src/lib/github/client.ts",
+     "src/app/api/file/route.ts imports src/lib/github/repo.ts"
+    ]
+   },
+   {
+    "id": "src/app/api→src/lib",
+    "source": "src/app/api",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/app/api/explain/route.ts imports src/lib/http.ts",
+     "src/app/api/explain/route.ts imports src/lib/ratelimit.ts",
+     "src/app/api/file/route.ts imports src/lib/http.ts"
+    ]
+   },
+   {
+    "id": "src/app/go→src/lib/github",
+    "source": "src/app/go",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/app/go/route.ts imports src/lib/github/url.ts"
+    ]
+   },
+   {
+    "id": "src/components/explorer→src/components",
+    "source": "src/components/explorer",
+    "target": "src/components",
+    "kind": "confirmed",
+    "weight": 8,
+    "evidence": [
+     "src/components/explorer/AIExplain.tsx imports src/components/SafeMarkdown.tsx",
+     "src/components/explorer/AIExplain.tsx imports src/components/icons.tsx",
+     "src/components/explorer/ContributePanel.tsx imports src/components/icons.tsx",
+     "src/components/explorer/Explorer.tsx imports src/components/icons.tsx",
+     "src/components/explorer/FilesPanel.tsx imports src/components/icons.tsx"
+    ]
+   },
+   {
+    "id": "src/lib/ai→src/lib",
+    "source": "src/lib/ai",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/lib/ai/prompts.ts imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "src/lib/analysis→src/lib",
+    "source": "src/lib/analysis",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 7,
+    "evidence": [
+     "src/lib/analysis/assemble.ts imports src/lib/types.ts",
+     "src/lib/analysis/graph.ts imports src/lib/types.ts",
+     "src/lib/analysis/imports.ts imports src/lib/types.ts",
+     "src/lib/analysis/issues.ts imports src/lib/types.ts",
+     "src/lib/analysis/languages.ts imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "src/lib/github→src/lib",
+    "source": "src/lib/github",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/lib/github/client.ts imports src/lib/types.ts",
+     "src/lib/github/repo.ts imports src/lib/types.ts",
+     "src/lib/github/url.ts imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "tests→src/lib/github",
+    "source": "tests",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "tests/live.test.ts imports src/lib/github/repo.ts",
+     "tests/unit/url.test.ts imports src/lib/github/url.ts"
+    ]
+   },
+   {
+    "id": "src/app→src/components",
+    "source": "src/app",
+    "target": "src/components",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "src/app/not-found.tsx imports src/components/RepoSearch.tsx",
+     "src/app/not-found.tsx imports src/components/SiteHeader.tsx"
+    ]
+   },
+   {
+    "id": "src/app/r→src/components",
+    "source": "src/app/r",
+    "target": "src/components",
+    "kind": "confirmed",
+    "weight": 4,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/loading.tsx imports src/components/SiteHeader.tsx",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/RepoError.tsx",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/RepoSearch.tsx",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/SiteHeader.tsx"
+    ]
+   },
+   {
+    "id": "src/components/explorer→src/lib/analysis",
+    "source": "src/components/explorer",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 4,
+    "evidence": [
+     "src/components/explorer/ArchitectureCanvas.tsx imports src/lib/analysis/graph.ts",
+     "src/components/explorer/ArchitecturePanel.tsx imports src/lib/analysis/graph.ts",
+     "src/components/explorer/ArchitecturePanel.tsx imports src/lib/analysis/structure.ts",
+     "src/components/explorer/FilesPanel.tsx imports src/lib/analysis/languages.ts"
+    ]
+   },
+   {
+    "id": "src/components/explorer→src/lib",
+    "source": "src/components/explorer",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 9,
+    "evidence": [
+     "src/components/explorer/ArchitectureCanvas.tsx imports src/lib/types.ts",
+     "src/components/explorer/ArchitecturePanel.tsx imports src/lib/types.ts",
+     "src/components/explorer/ContributePanel.tsx imports src/lib/types.ts",
+     "src/components/explorer/Explorer.tsx imports src/lib/types.ts",
+     "src/components/explorer/FilesPanel.tsx imports src/lib/filetree.ts"
+    ]
+   },
+   {
+    "id": "src/lib→src/lib/analysis",
+    "source": "src/lib",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/lib/highlight.ts imports src/lib/analysis/languages.ts"
+    ]
+   },
+   {
+    "id": "src/lib/github→src/lib/analysis",
+    "source": "src/lib/github",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/lib/github/repo.ts imports src/lib/analysis/assemble.ts",
+     "src/lib/github/repo.ts imports src/lib/analysis/issues.ts",
+     "src/lib/github/repo.ts imports src/lib/analysis/structure.ts"
+    ]
+   },
+   {
+    "id": "src/app/r→src/components/explorer",
+    "source": "src/app/r",
+    "target": "src/components/explorer",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/Explorer.tsx",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/components/explorer/RepoHeader.tsx"
+    ]
+   },
+   {
+    "id": "src/app/r→src/lib/ai",
+    "source": "src/app/r",
+    "target": "src/lib/ai",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/ai/provider.ts"
+    ]
+   },
+   {
+    "id": "src/app/r→src/lib/github",
+    "source": "src/app/r",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 3,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/client.ts",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/repo.ts",
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/github/url.ts"
+    ]
+   },
+   {
+    "id": "src/app/r→src/lib",
+    "source": "src/app/r",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/app/r/[owner]/[repo]/page.tsx imports src/lib/types.ts"
+    ]
+   },
+   {
+    "id": "src/components→src/lib/github",
+    "source": "src/components",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/components/RepoSearch.tsx imports src/lib/github/url.ts"
+    ]
+   },
+   {
+    "id": "src/lib→src/lib/github",
+    "source": "src/lib",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/lib/http.ts imports src/lib/github/client.ts"
+    ]
+   },
+   {
+    "id": "tests→src/lib/ai",
+    "source": "tests",
+    "target": "src/lib/ai",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "tests/unit/ai.test.ts imports src/lib/ai/prompts.ts",
+     "tests/unit/ai.test.ts imports src/lib/ai/provider.ts"
+    ]
+   },
+   {
+    "id": "tests→src/lib/analysis",
+    "source": "tests",
+    "target": "src/lib/analysis",
+    "kind": "confirmed",
+    "weight": 10,
+    "evidence": [
+     "tests/unit/ai.test.ts imports src/lib/analysis/assemble.ts",
+     "tests/unit/assemble.test.ts imports src/lib/analysis/assemble.ts",
+     "tests/unit/fixtures.ts imports src/lib/analysis/assemble.ts",
+     "tests/unit/fixtures.ts imports src/lib/analysis/issues.ts",
+     "tests/unit/graph.test.ts imports src/lib/analysis/graph.ts"
+    ]
+   },
+   {
+    "id": "src/components→src/lib",
+    "source": "src/components",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/components/SiteHeader.tsx imports src/lib/site.ts"
+    ]
+   },
+   {
+    "id": "tests→src/lib",
+    "source": "tests",
+    "target": "src/lib",
+    "kind": "confirmed",
+    "weight": 2,
+    "evidence": [
+     "tests/unit/fixtures.ts imports src/lib/types.ts",
+     "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts"
+    ]
+   },
+   {
+    "id": "src/components/explorer→src/lib/github",
+    "source": "src/components/explorer",
+    "target": "src/lib/github",
+    "kind": "confirmed",
+    "weight": 1,
+    "evidence": [
+     "src/components/explorer/FilesPanel.tsx imports src/lib/github/url.ts"
+    ]
+   }
+  ],
+  "fileDependencies": [
+   {
+    "from": "src/app/layout.tsx",
+    "to": "src/app/globals.css",
+    "specifier": "./globals.css",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/layout.tsx",
+    "to": "src/lib/site.ts",
+    "specifier": "@/lib/site",
+    "relation": "import"
+   },
+   {
+    "from": "scripts/build-demo.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "../src/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "scripts/build-demo.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "../src/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "scripts/build-demo.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../src/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/ai/provider.ts",
+    "specifier": "@/lib/ai/provider",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/ai/prompts.ts",
+    "specifier": "@/lib/ai/prompts",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/github/client.ts",
+    "specifier": "@/lib/github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/http.ts",
+    "specifier": "@/lib/http",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/explain/route.ts",
+    "to": "src/lib/ratelimit.ts",
+    "specifier": "@/lib/ratelimit",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/go/route.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/AIExplain.tsx",
+    "to": "src/components/SafeMarkdown.tsx",
+    "specifier": "../SafeMarkdown",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/AIExplain.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/AIExplain.tsx",
+    "to": "src/components/explorer/Explorer.tsx",
+    "specifier": "./Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/ai/prompts.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "./graph",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "./issues",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./languages",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "./structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/assemble.ts",
+    "to": "src/lib/analysis/summary.ts",
+    "specifier": "./summary",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/filetree.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "./types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/client.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/live.test.ts",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
+    "to": "src/lib/github/client.ts",
+    "specifier": "@/lib/github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/api/file/route.ts",
+    "to": "src/lib/http.ts",
+    "specifier": "@/lib/http",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/not-found.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "@/components/RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/not-found.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/loading.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoError.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "./RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoError.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "./icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitectureCanvas.tsx",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitectureCanvas.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/graph.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/graph.ts",
+    "to": "src/lib/analysis/imports.ts",
+    "specifier": "./imports",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/graph.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./languages",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/graph.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "./structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/highlight.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./analysis/languages",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "../analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "../analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "../analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/github/client.ts",
+    "specifier": "./client",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/repo.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "./url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/explorer/Explorer.tsx",
+    "specifier": "@/components/explorer/Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/explorer/RepoHeader.tsx",
+    "specifier": "@/components/explorer/RepoHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/RepoError.tsx",
+    "specifier": "@/components/RepoError",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/RepoSearch.tsx",
+    "specifier": "@/components/RepoSearch",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/components/SiteHeader.tsx",
+    "specifier": "@/components/SiteHeader",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/ai/provider.ts",
+    "specifier": "@/lib/ai/provider",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/client.ts",
+    "specifier": "@/lib/github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/repo.ts",
+    "specifier": "@/lib/github/repo",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/app/r/[owner]/[repo]/page.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoSearch.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/RepoSearch.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "./icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitecturePanel.tsx",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitecturePanel.tsx",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "@/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitecturePanel.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitecturePanel.tsx",
+    "to": "src/components/explorer/bits.tsx",
+    "specifier": "./bits",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ArchitecturePanel.tsx",
+    "to": "src/components/explorer/ArchitectureCanvas.tsx",
+    "specifier": "./ArchitectureCanvas",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/imports.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/imports.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./languages",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/http.ts",
+    "to": "src/lib/github/client.ts",
+    "specifier": "./github/client",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/github/url.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ai.test.ts",
+    "to": "src/lib/ai/prompts.ts",
+    "specifier": "@/lib/ai/prompts",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ai.test.ts",
+    "to": "src/lib/ai/provider.ts",
+    "specifier": "@/lib/ai/provider",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ai.test.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ai.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/issues.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/issues.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "./structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/assemble.test.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/assemble.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/SiteHeader.tsx",
+    "to": "src/lib/site.ts",
+    "specifier": "@/lib/site",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/SiteHeader.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "./icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ContributePanel.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ContributePanel.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ContributePanel.tsx",
+    "to": "src/components/explorer/bits.tsx",
+    "specifier": "./bits",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/languages.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/analysis/assemble.ts",
+    "specifier": "@/lib/analysis/assemble",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/fixtures.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "@/lib/analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/components/explorer/ArchitecturePanel.tsx",
+    "specifier": "./ArchitecturePanel",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/components/explorer/ContributePanel.tsx",
+    "specifier": "./ContributePanel",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/components/explorer/FilesPanel.tsx",
+    "specifier": "./FilesPanel",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/Explorer.tsx",
+    "to": "src/components/explorer/OverviewPanel.tsx",
+    "specifier": "./OverviewPanel",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/structure.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/structure.ts",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "./languages",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/graph.test.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/graph.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/lib/analysis/languages.ts",
+    "specifier": "@/lib/analysis/languages",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/lib/filetree.ts",
+    "specifier": "@/lib/filetree",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/lib/highlight.ts",
+    "specifier": "@/lib/highlight",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/components/explorer/AIExplain.tsx",
+    "specifier": "./AIExplain",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/components/explorer/bits.tsx",
+    "specifier": "./bits",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/FilesPanel.tsx",
+    "to": "src/components/explorer/Explorer.tsx",
+    "specifier": "./Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "../types",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "./graph",
+    "relation": "import"
+   },
+   {
+    "from": "src/lib/analysis/summary.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "./structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/imports.test.ts",
+    "to": "src/lib/analysis/imports.ts",
+    "specifier": "@/lib/analysis/imports",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/OverviewPanel.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/OverviewPanel.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/OverviewPanel.tsx",
+    "to": "src/components/explorer/AIExplain.tsx",
+    "specifier": "./AIExplain",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/OverviewPanel.tsx",
+    "to": "src/components/explorer/bits.tsx",
+    "specifier": "./bits",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/OverviewPanel.tsx",
+    "to": "src/components/explorer/Explorer.tsx",
+    "specifier": "./Explorer",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/issues.test.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "@/lib/analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/issues.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/RepoHeader.tsx",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/RepoHeader.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/RepoHeader.tsx",
+    "to": "src/components/explorer/ShareButton.tsx",
+    "specifier": "./ShareButton",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/ratelimit.test.ts",
+    "to": "src/lib/ratelimit.ts",
+    "specifier": "@/lib/ratelimit",
+    "relation": "import"
+   },
+   {
+    "from": "src/components/explorer/ShareButton.tsx",
+    "to": "src/components/icons.tsx",
+    "specifier": "../icons",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/structure.test.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "@/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/structure.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/summary.test.ts",
+    "to": "src/lib/analysis/summary.ts",
+    "specifier": "@/lib/analysis/summary",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/summary.test.ts",
+    "to": "src/lib/analysis/graph.ts",
+    "specifier": "@/lib/analysis/graph",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/summary.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/url.test.ts",
+    "to": "src/lib/github/url.ts",
+    "specifier": "@/lib/github/url",
+    "relation": "import"
+   }
+  ],
+  "externalPackages": [
+   {
+    "name": "next",
+    "importedBy": 14
+   },
+   {
+    "name": "react",
+    "importedBy": 13
+   },
+   {
+    "name": "vitest",
+    "importedBy": 11
+   },
+   {
+    "name": "server-only",
+    "importedBy": 3
+   },
+   {
+    "name": "node:fs",
+    "importedBy": 2
+   },
+   {
+    "name": "eslint",
+    "importedBy": 1
+   },
+   {
+    "name": "eslint-config-next",
+    "importedBy": 1
+   },
+   {
+    "name": "node:child_process",
+    "importedBy": 1
+   },
+   {
+    "name": "@xyflow/react",
+    "importedBy": 1
+   },
+   {
+    "name": "@anthropic-ai/sdk",
+    "importedBy": 1
+   },
+   {
+    "name": "node:url",
+    "importedBy": 1
+   },
+   {
+    "name": "@/lib",
+    "importedBy": 1
+   },
+   {
+    "name": "c-pkg",
+    "importedBy": 1
+   },
+   {
+    "name": "lodash",
+    "importedBy": 1
+   }
+  ],
+  "analyzedFiles": 59
+ },
+ "summary": {
+  "headline": "Understand any codebase. Find your way in. Make your first contribution.",
+  "whatItDoes": [
+   {
+    "text": "Understand any codebase. Find your way in. Make your first contribution.",
+    "source": "GitHub repository description"
+   },
+   {
+    "text": "This is a Next.js project bootstrapped with create-next-app.",
+    "source": "README.md"
+   }
+  ],
+  "techStack": [
+   {
+    "text": "Written mostly in TypeScript (98.5%), CSS (1.3%), JavaScript (0.2%).",
+    "source": "GitHub languages API"
+   },
+   {
+    "text": "Uses Anthropic SDK (Claude API), React Flow (diagrams), Next.js (React framework), React (UI library), ESLint (linting), Tailwind CSS (styling), TypeScript, Vitest (testing).",
+    "source": "package.json"
+   },
+   {
+    "text": "Declares 19 npm dependencies.",
+    "source": "package.json"
+   }
+  ],
+  "howToRun": [
+   {
+    "text": "Install dependencies with `npm install`.",
+    "source": "package.json"
+   },
+   {
+    "text": "`npm run dev` runs `next dev`.",
+    "source": "package.json scripts"
+   },
+   {
+    "text": "`npm run start` runs `next start`.",
+    "source": "package.json scripts"
+   },
+   {
+    "text": "`npm run build` runs `next build`.",
+    "source": "package.json scripts"
+   },
+   {
+    "text": "`npm run test` runs `vitest run`.",
+    "source": "package.json scripts"
+   },
+   {
+    "text": "`npm run lint` runs `eslint`.",
+    "source": "package.json scripts"
+   },
+   {
+    "text": "The README has setup sections: “Getting Started”.",
+    "source": "README.md"
+   }
+  ],
+  "structure": [
+   {
+    "text": "`tests/`: 12 files (TypeScript) — likely tests (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/components/explorer/`: 10 files (TypeScript).",
+    "source": "repository tree"
+   },
+   {
+    "text": "Root: 8 files (TypeScript, JavaScript).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/lib/analysis/`: 7 files (TypeScript).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/lib/`: 6 files (TypeScript) — likely shared library code (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/app/`: 5 files (TypeScript, CSS) — likely pages / routes (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/components/`: 5 files (TypeScript) — likely ui components (by folder name).",
+    "source": "repository tree"
+   },
+   {
+    "text": "`src/app/r/`: 3 files (TypeScript).",
+    "source": "repository tree"
+   }
+  ],
+  "executionFlow": [
+   {
+    "depth": 0,
+    "file": "src/app/layout.tsx",
+    "calls": [
+     "src/app/globals.css",
+     "src/lib/site.ts"
+    ]
+   }
+  ],
+  "caveats": []
+ },
+ "entryPoints": [
+  {
+   "path": "src/app/layout.tsx",
+   "reason": "Next.js App Router root layout",
+   "evidence": "convention"
+  },
+  {
+   "path": "src/app/page.tsx",
+   "reason": "Next.js App Router home page",
+   "evidence": "convention"
+  }
+ ],
+ "languages": [
+  {
+   "language": "TypeScript",
+   "bytes": 237904,
+   "percent": 98.5,
+   "color": "#3178c6"
+  },
+  {
+   "language": "CSS",
+   "bytes": 3176,
+   "percent": 1.3,
+   "color": "#663399"
+  },
+  {
+   "language": "JavaScript",
+   "bytes": 465,
+   "percent": 0.2,
+   "color": "#f1e05a"
+  }
+ ],
+ "totalFiles": 65
+}
