@@ -158,7 +158,7 @@
     "id": "tests",
     "label": "tests",
     "path": "tests",
-    "fileCount": 15,
+    "fileCount": 16,
     "languages": [
      "TypeScript"
     ],
@@ -452,7 +452,7 @@
     "source": "tests",
     "target": "src/lib/analysis",
     "kind": "confirmed",
-    "weight": 16,
+    "weight": 18,
     "evidence": [
      "tests/unit/ai.test.ts imports src/lib/analysis/assemble.ts",
      "tests/unit/assemble.test.ts imports src/lib/analysis/assemble.ts",
@@ -530,13 +530,13 @@
     "source": "tests",
     "target": "src/lib",
     "kind": "confirmed",
-    "weight": 5,
+    "weight": 6,
     "evidence": [
      "tests/unit/fixtures.ts imports src/lib/types.ts",
+     "tests/unit/launch-fixes.test.ts imports src/lib/types.ts",
      "tests/unit/ratelimit.test.ts imports src/lib/ratelimit.ts",
      "tests/unit/scale.test.ts imports src/lib/filetree.ts",
-     "tests/unit/scale.test.ts imports src/lib/types.ts",
-     "tests/unit/workspace.test.ts imports src/lib/types.ts"
+     "tests/unit/scale.test.ts imports src/lib/types.ts"
     ]
    },
    {
@@ -1464,6 +1464,30 @@
     "relation": "import"
    },
    {
+    "from": "tests/unit/launch-fixes.test.ts",
+    "to": "src/lib/analysis/issues.ts",
+    "specifier": "@/lib/analysis/issues",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/launch-fixes.test.ts",
+    "to": "src/lib/analysis/structure.ts",
+    "specifier": "@/lib/analysis/structure",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/launch-fixes.test.ts",
+    "to": "src/lib/types.ts",
+    "specifier": "@/lib/types",
+    "relation": "import"
+   },
+   {
+    "from": "tests/unit/launch-fixes.test.ts",
+    "to": "tests/unit/fixtures.ts",
+    "specifier": "./fixtures",
+    "relation": "import"
+   },
+   {
     "from": "tests/unit/ratelimit.test.ts",
     "to": "src/lib/ratelimit.ts",
     "specifier": "@/lib/ratelimit",
@@ -1571,7 +1595,7 @@
    },
    {
     "name": "vitest",
-    "importedBy": 14
+    "importedBy": 15
    },
    {
     "name": "server-only",
@@ -1630,7 +1654,7 @@
     "importedBy": 1
    }
   ],
-  "analyzedFiles": 71
+  "analyzedFiles": 72
  },
  "summary": {
   "headline": "Understand any codebase. Find your way in. Make your first contribution.",
@@ -1690,11 +1714,11 @@
   ],
   "structure": [
    {
-    "text": "Root: 15 files (TypeScript, JavaScript).",
+    "text": "`tests/`: 16 files (TypeScript) — likely tests (by folder name).",
     "source": "repository tree"
    },
    {
-    "text": "`tests/`: 15 files (TypeScript) — likely tests (by folder name).",
+    "text": "Root: 15 files (TypeScript, JavaScript).",
     "source": "repository tree"
    },
    {
@@ -1809,7 +1833,7 @@
  "languages": [
   {
    "language": "TypeScript",
-   "bytes": 283270,
+   "bytes": 288661,
    "percent": 97.6,
    "color": "#3178c6"
   },
@@ -1832,5 +1856,5 @@
    "color": "#f1e05a"
   }
  ],
- "totalFiles": 103
+ "totalFiles": 104
 }

@@ -151,6 +151,16 @@ export function detectEntryPoints(tree: TreeEntry[], manifests: Manifests): Entr
   if (pkg) {
     if (pkg.main) add(pkg.main, 'Declared as "main" in package.json', "confirmed");
     if (pkg.module) add(pkg.module, 'Declared as "module" in package.json', "confirmed");
+    const exp = pkg.exports as Record<string, unknown> | string | undefined;
+    const dot = typeof exp === "string" ? exp : exp && typeof exp === "object" ? exp["."] : undefined;
+    const exportPath = typeof dot === "string" ? dot : dot && typeof dot === "object" ? ((dot as Record<string, unknown>).import ?? (dot as Record<string, unknown>).default) : undefined;
+    if (typeof exportPath === "string") add(exportPath, 'Declared in "exports" in package.json', "confirmed");
+    // Declared files are often build output (dist/…) that isn't committed. Look for the source file it was built from.
+    for (const [field, value] of [["main", pkg.main], ["module", pkg.module], ["exports", exportPath]] as const) {
+      if (typeof value !== "string" || files.has(normalizeRel(value))) continue;
+      const src = sourceForBuiltPath(normalizeRel(value), files);
+      if (src) add(src, `Likely source of "${field}" (${normalizeRel(value)} is build output, not in the repository)`, "convention");
+    }
     if (typeof pkg.bin === "string") add(pkg.bin, 'Declared as "bin" in package.json', "confirmed");
     else if (pkg.bin) for (const [name, p] of Object.entries(pkg.bin)) add(p, `CLI command "${name}" in package.json`, "confirmed");
     for (const script of ["start", "dev", "serve"]) {
@@ -189,11 +199,10 @@ export function detectEntryPoints(tree: TreeEntry[], manifests: Manifests): Entr
     }
   }
 
-  // Confirmed first, then shallow paths first.
+  // Confirmed first, then code before build files (Dockerfile), then shallow paths first.
+  const rank = (e: EntryPoint) => (e.evidence === "confirmed" ? 0 : /(^|\/)Dockerfile$/.test(e.path) ? 2 : 1);
   return out
-    .sort((a, b) =>
-      a.evidence === b.evidence ? a.path.split("/").length - b.path.split("/").length : a.evidence === "confirmed" ? -1 : 1,
-    )
+    .sort((a, b) => rank(a) - rank(b) || a.path.split("/").length - b.path.split("/").length)
     .slice(0, 12);
 }
 
@@ -225,6 +234,7 @@ export function selectFilesToAnalyze(
       !isIgnoredPath(e.path) &&
       !isProbablyBinary(e.path) &&
       (e.size ?? 0) <= maxFileBytes &&
+      e.size !== 0 && // empty files (e.g. __init__.py markers) contain no imports
       isSourceFile(e.path) &&
       !/\.min\.(js|css)$/.test(e.path) &&
       !/\.d\.ts$/.test(e.path),
@@ -236,7 +246,7 @@ export function selectFilesToAnalyze(
     const depth = p.split("/").length;
     const base = p.split("/").pop()!.toLowerCase();
     let s = depth * 2;
-    if (/^(index|main|app|mod|lib|__init__)\./.test(base)) s -= 3;
+    if (/^(index|main|app|mod|lib)\./.test(base)) s -= 3;
     if (/(test|spec)s?\b|__tests__|\.test\.|\.spec\./i.test(p)) s += 4;
     if (/(^|\/)(examples?|docs?|fixtures?|benchmarks?)\//i.test(p)) s += 3;
     return s;
@@ -263,4 +273,16 @@ export function selectFilesToAnalyze(
     }
   }
   return [...chosen];
+}
+
+/** Map a build-output path (dist/index.js, distribution/source/index.js) to a committed source file, if one exists. */
+export function sourceForBuiltPath(path: string, files: Set<string>): string | null {
+  const m = path.match(/^(?:dist|distribution|build|lib|out|esm|cjs)\/(.+)\.(?:m?js|cjs|d\.ts)$/);
+  if (!m) return null;
+  const rest = m[1];
+  const stems = [rest, `src/${rest}`, `source/${rest}`, rest.replace(/^(esm|cjs)\//, "")];
+  for (const stem of stems) for (const ext of ["ts", "tsx", "mts", "js", "mjs", "jsx"]) {
+    if (files.has(`${stem}.${ext}`)) return `${stem}.${ext}`;
+  }
+  return null;
 }

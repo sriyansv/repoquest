@@ -137,6 +137,11 @@ export function assessIssue(
 
   const ageDays = (now - new Date(issue.updated_at).getTime()) / 86_400_000;
   if (ageDays > 365) { score -= 1; reasons.push({ positive: false, text: "No activity for over a year; check it is still wanted." }); }
+  const openDays = (now - new Date(issue.created_at).getTime()) / 86_400_000;
+  if (openDays > 730) {
+    score -= 1;
+    reasons.push({ positive: false, text: `Open for ${Math.floor(openDays / 365)}+ years. Long-open "easy" issues are often harder than they look, or were attempted before; read the history first.` });
+  }
 
   const mentioned = mentionedFiles(text, files);
   if (mentioned.length) { score += 1; reasons.push({ positive: true, text: "Points to specific files in the codebase." }); }
