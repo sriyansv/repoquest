@@ -132,6 +132,22 @@ Any Node host works too: `npm run build && npm start`.
 
 ## Contributing
 
+First time contributing to open source?
+
+If this is your first contribution, don't worry! Here's a simple way to get started:
+
+1. Explore the project using the "live demo" (https://repoquest-seven.vercel.app).
+2. Check the "open issues" (https://github.com/sriyansv/repoquest/issues) and look for beginner-friendly tasks.
+3. Read our "contribution guidelines" (CONTRIBUTING.md).
+4. Fork this repository and clone your fork.
+5. Create a new branch for your changes.
+6. Make your improvement and run the tests using "npm test".
+7. Push your branch and open a pull request explaining what you changed.
+
+Not sure where to start? You can also open an issue and discuss your idea before working on it.
+
+Every genuine contribution, whether it's fixing a small bug, improving documentation, or adding a feature, is welcome. Happy contributing!
+
 Contributions are very welcome, especially from first-time contributors. Project status and history: [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md), [docs/DEVELOPMENT_LOG.md](docs/DEVELOPMENT_LOG.md). Read [CONTRIBUTING.md](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see [SECURITY.md](SECURITY.md).
 
 ## License
